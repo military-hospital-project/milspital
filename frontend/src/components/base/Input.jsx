@@ -23,6 +23,9 @@ const InputStyle = styled.input`
   background-size: ${(props) => props.bgsize};
   float: ${(props) => props.float};
   outline: none;
+  ::placeholder {
+    color: '#ccc';
+  }
 `;
 
 export default function Input({

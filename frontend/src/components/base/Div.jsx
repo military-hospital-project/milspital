@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const Division = styled.div`
+  position: ${(props) => props.position};
   display: ${(props) => props.display};
   justify-content: ${(props) => props.justifyContent};
   align-items: ${(props) => props.alignItems};
@@ -12,6 +13,10 @@ const Division = styled.div`
   margin-right: ${(props) => props.marginRight};
   margin-bottom: ${(props) => props.marginBottom};
   margin-left: ${(props) => props.marginLeft};
+  left: ${(props) => props.left};
+  top: ${(props) => props.top};
+  right: ${(props) => props.right};
+  bottom: ${(props) => props.bottom};
   border: ${(props) => props.border};
   border-radius: ${(props) => props.borderRadius};
   text-align: ${(props) => props.textAlign};
@@ -27,6 +32,7 @@ const Division = styled.div`
 `;
 
 export default function Div({
+  position,
   display,
   justifyContent,
   alignItems,
@@ -38,6 +44,10 @@ export default function Div({
   marginRight,
   marginBottom,
   marginLeft,
+  left,
+  top,
+  right,
+  bottom,
   color,
   border,
   borderRadius,
@@ -53,6 +63,7 @@ export default function Div({
 }) {
   return (
     <Division
+      position={position}
       display={display}
       justifyContent={justifyContent}
       alignItems={alignItems}
@@ -64,6 +75,10 @@ export default function Div({
       marginRight={marginRight}
       marginBottom={marginBottom}
       marginLeft={marginLeft}
+      left={left}
+      top={top}
+      right={right}
+      bottom={bottom}
       color={color}
       border={border}
       borderRadius={borderRadius}
