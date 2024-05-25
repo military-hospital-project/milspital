@@ -1,7 +1,7 @@
 import React from 'react';
 
 function DetailView() {
-  return <div></div>;
+  return <div>detail</div>;
 }
 
 export default DetailView;
