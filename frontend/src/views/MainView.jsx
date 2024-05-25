@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import MainHeader from '../components/MainPage/Header/MainHeader';
-import MainBody from '../components/MainPage/Body/MainBody';
+import MainHeader from '../components/MainView/Header/MainHeader';
+import MainBody from '../components/MainView/Body/MainBody';
 
 export default function MainView() {
   return (
@@ -13,6 +13,10 @@ export default function MainView() {
 }
 
 const Main = styled.div`
+  width: 1340px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 `;
