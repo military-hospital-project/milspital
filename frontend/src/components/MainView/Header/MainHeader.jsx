@@ -6,23 +6,24 @@ import name from '../../../assets/images/name.webp';
 
 export default function MainHeader() {
   return (
-    <Main>
+    <MainContainer>
       <Search>
         <Image src={logo} alt='Logo' />
         <MainSearch />
       </Search>
       <MyPage src={name} alt='my-page' />
-    </Main>
+    </MainContainer>
   );
 }
 
-const Main = styled.div`
+const MainContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 1340px;
   justify-content: space-between;
   align-items: center;
-  margin: auto;
-  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 53px;
+  padding: 0 30px;
 `;
 
 const Search = styled.div`
