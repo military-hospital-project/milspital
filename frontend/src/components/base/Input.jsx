@@ -22,7 +22,6 @@ const InputStyle = styled.input`
   background-image: url(${(props) => props.bgimage});
   background-size: ${(props) => props.bgsize};
   float: ${(props) => props.float};
-  font-size: ${(props) => props};
   outline: none;
 `;
 
