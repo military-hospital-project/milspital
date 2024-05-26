@@ -36,7 +36,9 @@ export default function PostList() {
   return (
     <MainContainer>
       {isPopupOpen && <WritePopup onClick={closePopup} />}
+
       <PostListHeader hasOverflow={hasOverflow} />
+
       <ItemList ref={itemListRef}>
         {items.map((item) => (
           <PostListItem key={item} />
