@@ -36,6 +36,7 @@ const MainContainer = styled.div`
 `;
 
 const Title = styled.div`
+  position: relative;
   width: 100%;
   height: 60px;
   display: flex;
@@ -46,11 +47,14 @@ const Title = styled.div`
 `;
 
 const TitleText = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 260px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: fixed;
 `;
 
 const Warning = styled.div`
@@ -63,12 +67,13 @@ const Warning = styled.div`
 `;
 
 const SmallImageWrapper = styled.div`
+  position: absolute;
+  top: 15px;
+  left: 62%;
   width: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 350px;
-  position: fixed;
 `;
 
 const SmallImage = styled.img`
