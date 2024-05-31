@@ -38,6 +38,7 @@ function Signin() {
           name='pw'
           value={pw}
           onChange={handleChange}
+          type='password'
         />
       </WrapInput>
 

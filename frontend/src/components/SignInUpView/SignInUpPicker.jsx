@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
-import Signin from './Signin';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 function SignInUpPicker(state) {
   const [status, setStatus] = useState('signin');
 
-  const handleStatus = (stat) => {
-    console.log(stat);
-    setStatus(stat);
-  };
-
   return (
     <>
       <Horizontal>
-        <SelectButton onClick={() => handleStatus('signin')}>
+        <SigninBtn
+          active={status === 'signin'}
+          onClick={() => setStatus('signin')}
+        >
           로그인
-        </SelectButton>
-        <SelectButton onClick={() => handleStatus('signup')}>
+        </SigninBtn>
+        <SignupBtn
+          active={status === 'signup'}
+          onClick={() => setStatus('signup')}
+        >
           회원가입
-        </SelectButton>
+        </SignupBtn>
       </Horizontal>
-
-      <Signin />
-      {/* <Signup /> */}
+      {status === 'signin' && <SignIn />}
+      {status === 'signup' && <SignUp />}
     </>
   );
 }
@@ -34,62 +35,25 @@ const Horizontal = styled.div`
   justify-content: space-between;
   width: 142px;
   height: fit-content;
-  margin-top: 68px;
+  margin: 68px 0 30px 0;
 `;
 
-const SelectButton = styled.button`
+const SigninBtn = styled.button`
   width: fit-content;
   height: 25px;
-  margin-bottom: 30px;
   border: none;
-  border-bottom: 2px solid ${palette('green', 0)};
   color: ${palette('gray', 0)};
   font-size: 14px;
   background-color: transparent;
   cursor: pointer;
+
+  border-bottom: ${({ status }) =>
+    status === 'signin' ? '2px solid #6FD063' : ''};
 `;
 
-const WrapInput = styled(Horizontal)`
-  position: relative;
-  align-items: center;
-  width: 300px;
-  margin: 0 0 15px 0;
-`;
-
-const Input = styled.input`
-  box-sizing: border-box;
-  width: 100%;
-  height: 40px;
-  padding: 0 8px 0 45px;
-  color: ${palette('gray', 0)};
-  border: 1px solid ${palette('gray', 1)};
-  border-radius: 40px;
-  outline: none;
-  &::placeholder {
-    color: ${palette('gray', 1)};
-  }
-`;
-
-const InputIcon = styled.div`
-  position: absolute;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  left: 10px;
-  background-image: url(${(props) => props.bgimage || ''});
-  background-size: 100%;
-  background-repeat: no-repeat;
-`;
-
-const SignButton = styled.button`
-  width: 300px;
-  height: 40px;
-  margin-top: 15px;
-  color: white;
-  font-size: 14px;
-  border: none;
-  border-radius: 40px;
-  background-color: ${palette('green', 0)};
-  cursor: pointer;
+const SignupBtn = styled(SigninBtn)`
+  border-bottom: ${({ status }) =>
+    status === 'signup' ? '2px solid #6FD063' : ''};
 `;
 
 export default SignInUpPicker;
