@@ -2,29 +2,46 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
-import Signin from './Signin';
+import Dogtag from '../../assets/images/dogtag.webp';
+import Password from '../../assets/images/password.webp';
 
-function SignInUpPicker(state) {
-  const [status, setStatus] = useState('signin');
+function Signin() {
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState({
+    num: '',
+    pw: '',
+  });
 
-  const handleStatus = (stat) => {
-    console.log(stat);
-    setStatus(stat);
+  const { num, pw } = inputs;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs({ ...inputs, [name]: value });
   };
 
   return (
     <>
-      <Horizontal>
-        <SelectButton onClick={() => handleStatus('signin')}>
-          로그인
-        </SelectButton>
-        <SelectButton onClick={() => handleStatus('signup')}>
-          회원가입
-        </SelectButton>
-      </Horizontal>
+      <WrapInput>
+        <InputIcon width='25px' height='25px' bgimage={Dogtag} />
+        <Input
+          placeholder='군번'
+          name='num'
+          value={num}
+          onChange={handleChange}
+        />
+      </WrapInput>
 
-      <Signin />
-      {/* <Signup /> */}
+      <WrapInput>
+        <InputIcon width='22px' height='22px' bgimage={Password} />
+        <Input
+          placeholder='비밀번호'
+          name='pw'
+          value={pw}
+          onChange={handleChange}
+        />
+      </WrapInput>
+
+      <SignButton onClick={() => navigate('/main')}>로그인</SignButton>
     </>
   );
 }
@@ -35,18 +52,6 @@ const Horizontal = styled.div`
   width: 142px;
   height: fit-content;
   margin-top: 68px;
-`;
-
-const SelectButton = styled.button`
-  width: fit-content;
-  height: 25px;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 2px solid ${palette('green', 0)};
-  color: ${palette('gray', 0)};
-  font-size: 14px;
-  background-color: transparent;
-  cursor: pointer;
 `;
 
 const WrapInput = styled(Horizontal)`
@@ -92,4 +97,4 @@ const SignButton = styled.button`
   cursor: pointer;
 `;
 
-export default SignInUpPicker;
+export default Signin;
