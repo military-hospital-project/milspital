@@ -12,6 +12,7 @@ export default function PostList() {
       department: '내과',
       nickname: '나는 매진이라네',
       date: '2024.05.25 21:00:00',
+      scrap: 5,
     },
     {
       disease_name: '고열',
@@ -19,6 +20,7 @@ export default function PostList() {
       department: '응급실',
       nickname: '매진매진이라네',
       date: '2024.05.26 10:00:00',
+      scrap: 10,
     },
     {
       disease_name: '두통',
@@ -26,15 +28,39 @@ export default function PostList() {
       department: '정형외과',
       nickname: '혜진혜진',
       date: '2024.05.27 15:30:00',
+      scrap: 1,
     },
   ]);
   const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
     const searchQuery = searchParams.get('search');
+    const sortField = searchParams.get('sort') || 'date';
+    const sortOrder = searchParams.get('sortOrder') || 'asc';
+
+    let sortedItems = [...postItems];
+    sortedItems.sort((a, b) => {
+      let valueA = a[sortField].toLowerCase();
+      let valueB = b[sortField].toLowerCase();
+
+      if (sortField === 'date') {
+        return sortOrder === 'asc'
+          ? valueA.localeCompare(valueB)
+          : valueB.localeCompare(valueA);
+      } else {
+        if (valueA < valueB) {
+          return sortOrder === 'asc' ? -1 : 1;
+        }
+        if (valueA > valueB) {
+          return sortOrder === 'asc' ? 1 : -1;
+        }
+        return 0;
+      }
+    });
+
     if (searchQuery) {
       const normalizedQuery = searchQuery.toLowerCase().replace(/\s+/g, '');
-      const filtered = postItems.filter((item) =>
+      sortedItems = sortedItems.filter((item) =>
         Object.values(item).some((value) =>
           value
             .toString()
@@ -43,10 +69,8 @@ export default function PostList() {
             .includes(normalizedQuery)
         )
       );
-      setFilteredItems(filtered);
-    } else {
-      setFilteredItems(postItems);
     }
+    setFilteredItems(sortedItems);
   }, [postItems, searchParams]);
 
   return (
