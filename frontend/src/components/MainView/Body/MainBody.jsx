@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import PostList from './PostList';
 import filter from '../../../assets/images/filter.webp';
+import FilterMenu from './FilterMenu';
 
 export default function MainBody() {
   return (
@@ -11,7 +12,7 @@ export default function MainBody() {
         <Title>장병들의 후기</Title>
         <FilterContainer>
           <FilterImage src={filter} alt='filter' />
-          <span>필터</span>
+          <FilterMenu />
         </FilterContainer>
       </TitleContainer>
       <PostList />
