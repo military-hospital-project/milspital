@@ -15,7 +15,13 @@ export default function MainHeader() {
   return (
     <MainContainer>
       <Search>
-        <Image src={logo} alt='Logo' onClick={handleLogoClick} />
+        <Image
+          src={logo}
+          alt='Logo'
+          onClick={() => {
+            navigate('/main');
+          }}
+        />
         <MainSearch />
       </Search>
       <MyPage src={name} alt='my-page' />
