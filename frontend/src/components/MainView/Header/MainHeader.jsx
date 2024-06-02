@@ -1,21 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MainSearch from './MainSearch';
-import logo from '../../../assets/images/logo2.webp';
 import name from '../../../assets/images/name.webp';
+import Logo from './Logo';
 
 export default function MainHeader() {
-  const navigate = useNavigate();
-
-  const handleLogoClick = () => {
-    navigate('/main');
-  };
-
   return (
     <MainContainer>
       <Search>
-        <Image src={logo} alt='Logo' onClick={handleLogoClick} />
+        <Logo />
         <MainSearch />
       </Search>
       <MyPage src={name} alt='my-page' />

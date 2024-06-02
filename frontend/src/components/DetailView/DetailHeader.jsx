@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../assets/images/logo2.webp';
+import Logo from '../MainView/Header/Logo';
 import name from '../../assets/images/name.webp';
 
 export default function DetailHeader() {
   return (
     <MainContainer>
-      <Image src={logo} alt='Logo' />
+      <Logo />
       <MyPage src={name} alt='my-page' />
     </MainContainer>
   );
