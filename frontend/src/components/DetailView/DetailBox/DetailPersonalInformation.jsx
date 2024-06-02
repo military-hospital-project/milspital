@@ -126,11 +126,13 @@ const TitleBox = styled.div`
 `;
 
 const HorizontalTitle = styled.div`
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 0 12px;
   color: ${palette('gray', 0)};
   font-family: 'medium';
   border-right: 1px solid ${palette('gray', 1)};

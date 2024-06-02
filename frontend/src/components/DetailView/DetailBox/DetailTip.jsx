@@ -20,11 +20,13 @@ export default function DetailTip() {
         <span>팁</span>
       </Header>
 
-      <Tip>
+      <TipTextarea>{formattedText}</TipTextarea>
+
+      {/* <Tip>
         {formattedText.split('\n').map((line, index) => (
           <TipBox key={index}>{line}</TipBox>
         ))}
-      </Tip>
+      </Tip> */}
     </MainContainer>
   );
 }
@@ -45,7 +47,8 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
+  font-family: 'medium';
   color: ${palette('gray', 0)};
   background-color: ${palette('green', 1)};
   border-bottom: 1px solid ${palette('gray', 1)};
@@ -55,9 +58,35 @@ const Tip = styled.div`
   width: 100%;
   height: 200px;
   overflow-y: auto;
+  color: ${palette('gray', 0)};
 `;
 
 const TipBox = styled.div`
   padding: 10px;
   border-bottom: 1px solid ${palette('gray', 1)};
+`;
+
+const TipTextarea = styled.textarea`
+  width: 1276px;
+  height: 200px;
+  overflow-y: auto;
+  color: ${palette('gray', 0)};
+  border: none;
+  padding: 0;
+  resize: none;
+
+  background-attachment: local;
+  background-image: linear-gradient(to right, white 0px, transparent 0px),
+    linear-gradient(to left, white 0px, transparent 0px),
+    repeating-linear-gradient(
+      white,
+      white 39px,
+      ${palette('gray', 1)} 39px,
+      ${palette('gray', 1)} 40px,
+      white 40px
+    );
+  line-height: 40px;
+  &:focus {
+    outline: none;
+  }
 `;

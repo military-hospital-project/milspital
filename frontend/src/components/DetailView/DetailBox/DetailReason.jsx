@@ -42,8 +42,9 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 30px;
   color: ${palette('gray', 0)};
+  font-family: 'medium';
   background-color: ${palette('green', 1)};
   border-bottom: 1px solid ${palette('gray', 1)};
   border-right: 1px solid ${palette('gray', 1)};
@@ -53,6 +54,7 @@ const Reason = styled.div`
   width: 100%;
   height: 270px;
   overflow-y: auto;
+  color: ${palette('gray', 0)};
 `;
 
 const ReasonBox = styled.div`

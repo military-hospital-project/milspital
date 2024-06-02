@@ -24,9 +24,11 @@ export default function DetailMain() {
 }
 
 const MainContainer = styled.div`
-  width: 100%;
-  height: 700px;
+  width: calc(100% - 4px);
+  height: 704px;
+  overflow: hidden;
   border: 2px solid ${palette('gray', 1)};
+  /* border-bottom: 1px solid ${palette('gray', 1)}; */
 `;
 
 const MiddleContainer = styled.div`

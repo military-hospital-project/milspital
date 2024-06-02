@@ -26,6 +26,7 @@ export default function MainHeader() {
 const MainContainer = styled.div`
   display: flex;
   width: 1280px;
+  height: fit-content;
   justify-content: space-between;
   align-items: center;
   margin: 10px 0 52px 0;
