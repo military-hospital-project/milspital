@@ -7,6 +7,7 @@ export default function PostList() {
   const [searchParams] = useSearchParams();
   const [postItems, setPostItems] = useState([
     {
+      id: 1,
       disease_name: '소화불량',
       hospital: '국군부산병원',
       department: '내과',
@@ -15,6 +16,7 @@ export default function PostList() {
       scrap: 5,
     },
     {
+      id: 2,
       disease_name: '고열',
       hospital: '서울병원',
       department: '응급실',
@@ -23,6 +25,7 @@ export default function PostList() {
       scrap: 10,
     },
     {
+      id: 3,
       disease_name: '두통',
       hospital: '대구병원',
       department: '정형외과',
