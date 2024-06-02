@@ -11,7 +11,7 @@ export default function WritePopup({ onClick }) {
     <MainContainer>
       <Content>
         <Header>
-          <span>진료 후기 작성</span>
+          <div>진료 후기 작성</div>
           <Image src={xicon} alt='xicon' onClick={onClick} />
         </Header>
 
@@ -33,13 +33,13 @@ const MainContainer = styled.div`
 
 const Content = styled.div`
   width: 1250px;
-  height: 700px;
+  height: fit-content;
   border: none;
   box-shadow: 0 0 10px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 24px;
+  padding: 18px 30px 20px 30px;
   background: white;
 `;
 
@@ -52,7 +52,7 @@ const Header = styled.div`
   font-size: 18px;
   color: ${palette('gray', 0)};
   border-bottom: 1px solid ${palette('gray', 1)};
-  padding-bottom: 10px;
+  padding-bottom: 14px;
 `;
 
 const Image = styled.img`
@@ -64,9 +64,9 @@ const Image = styled.img`
 const SubmitButton = styled.button`
   width: 70px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
   margin: auto;
   border: 1px solid ${palette('green', 0)};
   border-radius: 50px;

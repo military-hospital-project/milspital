@@ -9,7 +9,6 @@ export default function DetailPersonalInformation() {
         환<br />
         <br />자
       </VerticalBox>
-
       <TitleBox>
         <HorizontalTitle borderBottom={true}>
           <span>작</span>
@@ -108,9 +107,10 @@ const MainContainer = styled.div`
 `;
 
 const VerticalBox = styled.div`
-  width: 60px;
+  width: 44px;
   height: 100%;
   display: flex;
+  font-family: 'medium';
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -132,6 +132,7 @@ const HorizontalTitle = styled.div`
   align-items: center;
   justify-content: space-evenly;
   color: ${palette('gray', 0)};
+  font-family: 'medium';
   border-right: 1px solid ${palette('gray', 1)};
   border-bottom: ${(props) =>
     props.borderBottom ? `1px solid #cccccc` : 'none'};
@@ -150,7 +151,7 @@ const HorizontalInformation = styled.div`
   display: flex;
   align-items: center;
   justify-content: start;
-  color: ${palette('gray', 1)};
+  color: ${palette('gray', 0)};
   border-right: 1px solid ${palette('gray', 1)};
   border-bottom: ${(props) =>
     props.borderBottom ? `1px solid #cccccc` : 'none'};

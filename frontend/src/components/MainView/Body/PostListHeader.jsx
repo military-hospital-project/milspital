@@ -5,14 +5,10 @@ import { palette } from 'styled-tools';
 export default function PostListHeader({ hasOverflow }) {
   return (
     <MainContainer hasOverflow={hasOverflow}>
-      <Header width='30%' justifyContent='flex-start'>
-        병명
-      </Header>
-      <Header width='40%' justifyContent='flex-start'>
-        병원 정보
-      </Header>
+      <Header width='40%'>병명</Header>
+      <Header width='30%'>병원 정보</Header>
       <Header width='15%'>닉네임</Header>
-      <Header width='15%'>게시일</Header>
+      <Header width='12%'>게시일</Header>
     </MainContainer>
   );
 }
@@ -28,7 +24,7 @@ const MainContainer = styled.div`
   border-radius: 36px;
   background-color: ${palette('green', 1)};
   margin-bottom: 8px;
-  padding-left: 30px;
+  /* padding-left: 30px; */
   padding-right: ${(props) => (props.hasOverflow ? '15px' : '0')};
 `;
 

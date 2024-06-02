@@ -2,23 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import spanner from '../../../assets/images/spanner.webp';
-import bottle from '../../../assets/images/bottle.webp';
-import hoverpill from '../../../assets/images/hoverpill.webp';
+import hoverspanner from '../../../assets/images/hoverspanner.webp';
+import trash from '../../../assets/images/trash.webp';
+import pill from '../../../assets/images/pill.webp';
 
 export default function DetailMainHeader() {
   return (
     <MainContainer>
       <Title>
         <TitleText>
-          <span>처</span>
+          처 방 전
+          {/* <span>처</span>
           <span>방</span>
-          <span>전</span>
+          <span>전</span> */}
         </TitleText>
         <SmallImageWrapper>
-          <SmallImage src={spanner} alt='spanner' />
-          <SmallImage src={bottle} alt='bottle' />
+          <SmallImage src={spanner} backHoverImg={hoverspanner} alt='spanner' />
+          <SmallImage src={trash} alt='trash' />
         </SmallImageWrapper>
-        <BigImage src={hoverpill} alt='hoverpill' />
+        <BigImage src={pill} alt='pill' />
       </Title>
       <Warning>
         참고용으로만 사용해 주시고 꼭 병원에 방문하여 의사와 상의하세요.
@@ -29,18 +31,16 @@ export default function DetailMainHeader() {
 
 const MainContainer = styled.div`
   width: 100%;
-  height: 70px;
-  display: flex;
-  flex-direction: column;
+  height: 66px;
   border-bottom: 2px solid ${palette('gray', 1)};
 `;
 
 const Title = styled.div`
   position: relative;
   width: 100%;
-  height: 60px;
+  height: 30px;
   display: flex;
-  align-items: center;
+  margin: 12px 0 18px 0;
   justify-content: center;
   font-size: 28px;
   color: ${palette('gray', 0)};
@@ -48,13 +48,10 @@ const Title = styled.div`
 
 const TitleText = styled.div`
   position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  line-height: 30px;
   width: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  word-spacing: 83px;
 `;
 
 const Warning = styled.div`
@@ -63,13 +60,14 @@ const Warning = styled.div`
   justify-content: start;
   font-size: 10px;
   color: ${palette('gray', 0)};
-  padding: 5px;
+  margin: 0 0 0px 5px;
+  /* padding: 5px; */
 `;
 
 const SmallImageWrapper = styled.div`
   position: absolute;
-  top: 15px;
-  left: 62%;
+  top: 5px;
+  left: 782px;
   width: 50px;
   display: flex;
   align-items: center;
@@ -79,12 +77,17 @@ const SmallImageWrapper = styled.div`
 const SmallImage = styled.img`
   width: 20px;
   height: 20px;
+  cursor: pointer;
+  :hover {
+    background-image: url(${(props) => props.backHoverImg});
+  }
 `;
 
 const BigImage = styled.img`
   width: 30px;
   height: 30px;
   margin-left: auto;
-  margin-right: 10px;
-  opacity: 50%;
+  margin-right: 12px;
+  cursor: pointer;
+  /* opacity: 50%; */
 `;

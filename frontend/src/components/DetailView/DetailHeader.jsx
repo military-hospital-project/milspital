@@ -14,11 +14,11 @@ export default function DetailHeader() {
 
 const MainContainer = styled.div`
   display: flex;
-  width: 1340px;
+  width: 1280px;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 53px;
+  margin-top: 12px;
+  margin-bottom: 16px;
   padding: 0 30px;
 `;
 

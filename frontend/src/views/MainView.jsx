@@ -13,10 +13,12 @@ export default function MainView() {
 }
 
 const Main = styled.div`
+  box-sizing: border-box;
   width: 1340px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  padding: 0 30px;
+  /* margin: auto; */
 `;

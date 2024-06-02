@@ -20,12 +20,12 @@ export default function MainBody() {
 }
 
 const MainContainer = styled.div`
-  width: 100%;
+  width: 1280px;
   height: 100%;
   display: flex-start;
   flex-direction: column;
   justify-content: center;
-  padding: 0 30px;
+  align-items: center;
 `;
 
 const TitleContainer = styled.div`

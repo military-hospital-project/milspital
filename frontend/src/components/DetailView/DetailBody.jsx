@@ -16,7 +16,7 @@ export default function DetailBody() {
 }
 
 const MainContainer = styled.div`
-  width: 1240px;
+  width: 1280px;
   height: 100%;
   display: flex;
   flex-direction: column;

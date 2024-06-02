@@ -1,7 +1,23 @@
+@font-face {
+  font-family: 'regular';
+  src: url('./assets/fonts/NotoSansKR-Regular.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'medium';
+  src: url('./assets/fonts/NotoSansKR-Medium.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'bold';
+  src: url('./assets/fonts/NotoSansKR-Bold.otf') format('opentype');
+}
+
 body {
   width: 1340px;
   height: 100vh;
   display: flex-start;
   justify-content: center;
-  margin: auto;
+  margin: 0 auto;
+  font-family: regular;
 }

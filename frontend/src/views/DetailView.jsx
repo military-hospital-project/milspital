@@ -7,7 +7,6 @@ export default function DetailView() {
   return (
     <Main>
       <DetailHeader />
-
       <DetailBody />
     </Main>
   );

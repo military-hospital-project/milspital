@@ -1,10 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MainSearch from './MainSearch';
 import logo from '../../../assets/images/logo2.webp';
 import name from '../../../assets/images/name.webp';
 
 export default function MainHeader() {
+  const navigate = useNavigate;
   return (
     <MainContainer>
       <Search>
@@ -18,12 +20,10 @@ export default function MainHeader() {
 
 const MainContainer = styled.div`
   display: flex;
-  width: 1340px;
+  width: 1280px;
   justify-content: space-between;
   align-items: center;
-  margin-top: 10px;
-  margin-bottom: 53px;
-  padding: 0 30px;
+  margin: 10px 0 52px 0;
 `;
 
 const Search = styled.div`

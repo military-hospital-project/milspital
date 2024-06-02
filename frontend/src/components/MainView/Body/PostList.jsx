@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { palette } from 'styled-tools';
 import PostListHeader from './PostListHeader';
 import PostListItem from './PostListItem';
 import post from '../../../assets/images/post.webp';
@@ -40,8 +41,8 @@ export default function PostList() {
       <PostListHeader hasOverflow={hasOverflow} />
 
       <ItemList ref={itemListRef}>
-        {items.map((item) => (
-          <PostListItem key={item} />
+        {items.map((index, item) => (
+          <PostListItem key={index} index={index + 1} item={item} />
         ))}
         <Image src={post} alt='post' onClick={openWritePopup} />
       </ItemList>
@@ -56,14 +57,29 @@ const MainContainer = styled.div`
 `;
 
 const ItemList = styled.div`
-  height: 75vh;
+  height: calc(100vh - 186px);
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 20px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 16px;
+    /* background: transparent; */
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 30px;
+    background: ${palette('gray', 1)};
+    border: 6px solid white;
+    border-radius: 20px;
+  }
 `;
 
 const Image = styled.img`
+  position: absolute;
   width: 60px;
   height: 60px;
-  position: absolute;
   bottom: 10px;
   right: 10px;
   z-index: 50;

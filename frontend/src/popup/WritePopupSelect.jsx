@@ -78,6 +78,7 @@ const SelectBox = styled.div`
 `;
 
 const Label = styled.label`
+  font-weight: bold;
   font-size: 14px;
   color: ${palette('gray', 0)};
   display: flex;
@@ -117,4 +118,5 @@ const DeseaseInput = styled.input`
   border: 1px solid ${palette('gray', 1)};
   font-size: 14px;
   color: ${palette('gray', 0)};
+  outline: none;
 `;

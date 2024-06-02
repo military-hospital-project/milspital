@@ -23,13 +23,16 @@ const SearchInput = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
+  margin-left: 10px;
 `;
 
 const Search = styled.input`
   width: 85%;
   height: 60%;
   font-size: 16px;
+  color: ${palette('gray', 0)};
   border: none;
+  outline: none;
 `;
 
 const SearchImage = styled.img`
