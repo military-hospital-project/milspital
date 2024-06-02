@@ -25,7 +25,8 @@ export default function DetailCommentBox() {
             <Comments>감사합니다!</Comments>
             <CreatedAt>
               <Button type='edit'>수정</Button>
-              <Button type='delete'>삭제</Button>2024.05.17. 21:30:00
+              <Button type='delete'>삭제</Button>
+              <div>2024.05.17. 21:30:00</div>
             </CreatedAt>
           </CommentContainer>
         </MyComment>
@@ -50,6 +51,24 @@ export default function DetailCommentBox() {
             <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
           </CommentContainer>
         </Comment>
+
+        <Comment>
+          <Profile src={profile} alt='profile' />
+          <CommentContainer>
+            <Nickname>매진매진이</Nickname>
+            <Comments>꿀팁이군요!</Comments>
+            <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
+          </CommentContainer>
+        </Comment>
+
+        <Comment>
+          <Profile src={profile} alt='profile' />
+          <CommentContainer>
+            <Nickname>매진매진이</Nickname>
+            <Comments>꿀팁이군요!</Comments>
+            <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
+          </CommentContainer>
+        </Comment>
       </CommentBox>
     </MainContainer>
   );
@@ -57,7 +76,7 @@ export default function DetailCommentBox() {
 
 const MainContainer = styled.div`
   width: 100%;
-  height: 300px;
+  height: fit-content;
   border: 2px solid ${palette('gray', 1)};
 `;
 
@@ -68,17 +87,34 @@ const Header = styled.div`
 `;
 
 const CommentBox = styled.div`
-  width: 97%;
-  height: 220px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 430px;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: start;
   margin: auto;
+  /* padding: 0 0px 0 0; */
+  padding: 0 14px 14px 14px;
   overflow-y: auto;
-  color: ${palette('gray', 1)};
+  color: ${palette('gray', 0)};
   font-size: 14px;
-  gap: 10px;
+  gap: 14px;
+  &::-webkit-scrollbar {
+    width: 20px;
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    border-radius: 16px;
+    /* background: transparent; */
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 30px;
+    background: ${palette('gray', 1)};
+    border: 6px solid white;
+    border-radius: 20px;
+  }
 `;
 
 const Comment = styled.div`
@@ -112,11 +148,12 @@ const Nickname = styled.div`
   top: 0;
   left: 0;
   color: ${palette('gray', 0)};
+  font-size: 14px;
 `;
 
 const Comments = styled.div`
   position: absolute;
-  bottom: 0;
+  bottom: 6px;
   left: 0;
   font-size: 12px;
   display: flex;
@@ -127,9 +164,11 @@ const CreatedAt = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  font-size: 10px;
+  font-size: 12px;
   display: flex;
   gap: 5px;
+  align-items: center;
+  color: ${palette('gray', 1)};
 `;
 
 const MyComment = styled.div`
@@ -152,11 +191,11 @@ const DoctorMark = styled.img`
 
 const Button = styled.button`
   width: 30px;
-  height: 14px;
+  height: 16px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* margin: auto; */
   border: none;
   border-radius: 50px;
   color: white;
@@ -164,4 +203,5 @@ const Button = styled.button`
     props.type === 'edit' ? palette('green', 0) : palette('delete', 0)};
   cursor: pointer;
   font-size: 10px;
+  line-height: 16px;
 `;

@@ -16,7 +16,7 @@ export default function DetailComment() {
 
 const MainContainer = styled.div`
   width: 100%;
-  height: 40px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -24,7 +24,7 @@ const MainContainer = styled.div`
   font-size: 14px;
   border: 1px solid ${palette('gray', 1)};
   border-radius: 50px;
-  margin: 20px 0;
+  margin: 10px 0;
 `;
 
 const Image = styled.img`
@@ -33,9 +33,13 @@ const Image = styled.img`
 `;
 
 const CommentInput = styled.input`
-  width: 90%;
-  height: 80%;
+  width: 91.5%;
+  height: 90%;
+  /* width: 1278px; */
+  /* height: 50px; */
   border: none;
+  outline: none;
+  font-size: 14px;
   color: ${palette('gray', 0)};
   ::placeholder {
     color: ${palette('gray', 1)};

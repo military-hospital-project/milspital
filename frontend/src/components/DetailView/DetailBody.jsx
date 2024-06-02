@@ -25,4 +25,5 @@ const MainContainer = styled.div`
   gap: 10px;
   color: ${palette('gray', 1)};
   font-size: 14px;
+  padding: 0 0 30px 0;
 `;
