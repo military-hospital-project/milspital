@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-import logo from '../../../assets/images/logo2.webp';
+import logo from '../assets/images/logo2.webp';
 
 export default function Logo() {
   const navigate = useNavigate();

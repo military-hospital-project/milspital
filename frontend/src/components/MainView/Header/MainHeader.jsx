@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import MainSearch from './MainSearch';
-import name from '../../../assets/images/name.webp';
-import Logo from './Logo';
+import Logo from '../../Logo';
+import Profile from '../../Profile';
 
 export default function MainHeader() {
   return (
@@ -11,7 +11,7 @@ export default function MainHeader() {
         <Logo />
         <MainSearch />
       </Search>
-      <MyPage src={name} alt='my-page' />
+      <Profile />
     </MainContainer>
   );
 }
@@ -30,17 +30,4 @@ const Search = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Image = styled.img`
-  width: 45px;
-  height: 40px;
-  cursor: pointer;
-`;
-
-const MyPage = styled.img`
-  width: 40px;
-  height: 40px;
-  border: 1px solid gray;
-  border-radius: 100%;
 `;
