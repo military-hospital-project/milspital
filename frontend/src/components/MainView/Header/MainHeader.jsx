@@ -6,11 +6,16 @@ import logo from '../../../assets/images/logo2.webp';
 import name from '../../../assets/images/name.webp';
 
 export default function MainHeader() {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/main');
+  };
+
   return (
     <MainContainer>
       <Search>
-        <Image src={logo} alt='Logo' />
+        <Image src={logo} alt='Logo' onClick={handleLogoClick} />
         <MainSearch />
       </Search>
       <MyPage src={name} alt='my-page' />
@@ -37,6 +42,7 @@ const Search = styled.div`
 const Image = styled.img`
   width: 45px;
   height: 40px;
+  cursor: pointer;
 `;
 
 const MyPage = styled.img`

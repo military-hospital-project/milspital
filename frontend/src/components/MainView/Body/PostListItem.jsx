@@ -1,27 +1,81 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 
-export default function PostListItem({ index, item }) {
+export default function PostList() {
+  const [searchParams] = useSearchParams();
+  const [postItems, setPostItems] = useState([
+    {
+      disease_name: '소화불량',
+      hospital: '국군부산병원',
+      department: '내과',
+      nickname: '나는 매진이라네',
+      date: '2024.05.25 21:00:00',
+    },
+    {
+      disease_name: '고열',
+      hospital: '서울병원',
+      department: '응급실',
+      nickname: '매진매진이라네',
+      date: '2024.05.26 10:00:00',
+    },
+    {
+      disease_name: '두통',
+      hospital: '대구병원',
+      department: '정형외과',
+      nickname: '혜진혜진',
+      date: '2024.05.27 15:30:00',
+    },
+  ]);
+  const [filteredItems, setFilteredItems] = useState([]);
+
+  useEffect(() => {
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+      const normalizedQuery = searchQuery.toLowerCase().replace(/\s+/g, '');
+      const filtered = postItems.filter((item) =>
+        Object.values(item).some((value) =>
+          value
+            .toString()
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(normalizedQuery)
+        )
+      );
+      setFilteredItems(filtered);
+    } else {
+      setFilteredItems(postItems);
+    }
+  }, [postItems, searchParams]);
+
+  return (
+    <div>
+      {filteredItems.map((item, index) => (
+        <PostListItem key={index} index={index} item={item} />
+      ))}
+    </div>
+  );
+}
+
+function PostListItem({ index, item }) {
   const navigate = useNavigate();
 
   const onClickList = () => {
-    console.log(index);
     navigate(`/detail/${index}`);
   };
 
   return (
     <MainContainer onClick={onClickList}>
       <Item width='40%' fontSize='16px' justifyContent='flex-start'>
-        소화불량, 고열
+        {item.disease_name}
       </Item>
       <Item width='30%' justifyContent=''>
-        <Item1>국군부산병원</Item1>
-        <Item2>내과</Item2>
+        <Item1>{item.hospital}</Item1>
+        <Item2>{item.department}</Item2>
       </Item>
-      <Item width='15%'>나는 매진이라네</Item>
-      <Item width='12%'>2024.05.25 21:00:00</Item>
+      <Item width='15%'>{item.nickname}</Item>
+      <Item width='12%'>{item.date}</Item>
     </MainContainer>
   );
 }
@@ -37,7 +91,6 @@ const MainContainer = styled.div`
   border-radius: 15px;
   margin-bottom: 8px;
   cursor: pointer;
-  /* padding-left: 20px; */
 `;
 
 const Item = styled.span`
