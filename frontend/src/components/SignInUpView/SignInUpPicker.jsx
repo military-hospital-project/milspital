@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import SignIn from './Signin';
+import SignUp from './Signup';
 
 function SignInUpPicker(state) {
   const [status, setStatus] = useState('signin');
