@@ -25,7 +25,7 @@ export default function DetailMain() {
 
 const MainContainer = styled.div`
   width: calc(100% - 4px);
-  height: 634px;
+  height: 633px;
   overflow: hidden;
   border: 2px solid ${palette('gray', 1)};
   /* border-bottom: 1px solid ${palette('gray', 1)}; */

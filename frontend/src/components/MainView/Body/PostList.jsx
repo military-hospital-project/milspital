@@ -57,7 +57,7 @@ const MainContainer = styled.div`
 `;
 
 const ItemList = styled.div`
-  height: calc(100vh - 188px);
+  height: calc(100vh - 191px);
   overflow-y: auto;
 
   &::-webkit-scrollbar {

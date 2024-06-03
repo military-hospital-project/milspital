@@ -102,6 +102,7 @@ const Select = styled.select`
   color: ${palette('gray', 0)};
   padding: 8px;
   border: 1px solid ${palette('gray', 1)};
+  outline: none;
   cursor: pointer;
 `;
 
@@ -113,10 +114,12 @@ const DeseaseWrapper = styled.div`
 `;
 
 const DeseaseInput = styled.input`
+  box-sizing: border-box;
   width: 555px;
-  height: 30px;
+  height: 36px;
   border: 1px solid ${palette('gray', 1)};
   font-size: 14px;
   color: ${palette('gray', 0)};
+  padding: 4px 8px;
   outline: none;
 `;

@@ -5,22 +5,16 @@ import { palette } from 'styled-tools';
 import SignIn from './Signin';
 import SignUp from './Signup';
 
-function SignInUpPicker(state) {
+export default function SignInUpPicker(state) {
   const [status, setStatus] = useState('signin');
 
   return (
     <>
       <Horizontal>
-        <SigninBtn
-          active={status === 'signin'}
-          onClick={() => setStatus('signin')}
-        >
+        <SigninBtn status={status} onClick={() => setStatus('signin')}>
           로그인
         </SigninBtn>
-        <SignupBtn
-          active={status === 'signup'}
-          onClick={() => setStatus('signup')}
-        >
+        <SignupBtn status={status} onClick={() => setStatus('signup')}>
           회원가입
         </SignupBtn>
       </Horizontal>
@@ -39,6 +33,7 @@ const Horizontal = styled.div`
 `;
 
 const SigninBtn = styled.button`
+  box-sizing: content-box;
   width: fit-content;
   height: 25px;
   border: none;
@@ -51,9 +46,16 @@ const SigninBtn = styled.button`
     status === 'signin' ? '2px solid #6FD063' : ''};
 `;
 
-const SignupBtn = styled(SigninBtn)`
+const SignupBtn = styled.button`
+  box-sizing: content-box;
+  width: fit-content;
+  height: 25px;
+  border: none;
+  color: ${palette('gray', 0)};
+  font-size: 14px;
+  background-color: transparent;
+  cursor: pointer;
+
   border-bottom: ${({ status }) =>
     status === 'signup' ? '2px solid #6FD063' : ''};
 `;
-
-export default SignInUpPicker;

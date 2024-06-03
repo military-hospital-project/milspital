@@ -131,7 +131,7 @@ const Item1 = styled.div`
   width: fit-content;
   height: 16px;
   color: white;
-  background-color: ${palette('green', 0)};
+  background-color: ${palette('blue', 0)};
   border: none;
   border-radius: 3px;
   padding: 5px 8px;
@@ -143,7 +143,7 @@ const Item2 = styled.div`
   width: fit-content;
   height: 16px;
   color: white;
-  background-color: ${palette('gray', 0)};
+  background-color: ${palette('green', 0)};
   border: none;
   border-radius: 3px;
   padding: 5px 8px;

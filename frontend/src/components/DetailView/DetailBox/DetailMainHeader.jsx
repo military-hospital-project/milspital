@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import spanner from '../../../assets/images/spanner.webp';
 import hoverspanner from '../../../assets/images/hoverspanner.webp';
+import hovertrash from '../../../assets/images/hovertrash.webp';
 import trash from '../../../assets/images/trash.webp';
 import pill from '../../../assets/images/pill.webp';
 
 export default function DetailMainHeader() {
+  const [status, setStatus] = useState(false);
+
+  const onClickPill = () => {};
   return (
     <MainContainer>
       <Title>
@@ -18,9 +22,9 @@ export default function DetailMainHeader() {
         </TitleText>
         <SmallImageWrapper>
           <SmallImage src={spanner} backHoverImg={hoverspanner} alt='spanner' />
-          <SmallImage src={trash} alt='trash' />
+          <SmallImage src={trash} backHoverImg={hovertrash} alt='trash' />
         </SmallImageWrapper>
-        <BigImage src={pill} alt='pill' />
+        <BigImage src={pill} onClick={onClickPill} alt='pill' />
       </Title>
       <Warning>
         참고용으로만 사용해 주시고 꼭 병원에 방문하여 의사와 상의하세요.
@@ -79,6 +83,8 @@ const SmallImage = styled.img`
   height: 20px;
   cursor: pointer;
   :hover {
+    width: 20px;
+    height: 20px;
     background-image: url(${(props) => props.backHoverImg});
   }
 `;

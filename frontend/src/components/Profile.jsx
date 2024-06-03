@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import { useNavigate } from 'react-router-dom';
 import name from '../assets/images/name.webp';
-import home from '../assets/images/homeIcon.webp';
+import home from '../assets/images/home.webp';
 
 export default function Profile() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function Profile() {
           <LargeImage src={name} alt='name' />
           <Nickname onClick={handleMyPageClick}>
             <HomeImage src={home} alt='home' />
-            매진매진이라네
+            <div>매진매진이라네</div>
           </Nickname>
           <Logout>로그아웃</Logout>
         </Details>
@@ -60,8 +60,9 @@ const Details = styled.div`
   left: -200px;
   color: ${palette('gray', 0)};
   background: ${palette('green', 1)};
-  border: 1px solid ${palette('gray', 1)};
-  border-radius: 20px;
+  /* border: 1px solid ${palette('gray', 1)}; */
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
   box-shadow: 0 4px 8px ${palette('gray', 1)};
   padding: 20px 0;
 `;
@@ -76,16 +77,21 @@ const LargeImage = styled.img`
 `;
 
 const HomeImage = styled.img`
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   margin-right: 5px;
   color: ${palette('gray', 1)};
 `;
 
 const Nickname = styled.div`
+  display: flex;
+  height: 20px;
+  align-items: center;
   margin-bottom: 10px;
+  cursor: pointer;
   &:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    border-bottom: 1px solid ${palette('gray', 0)};
   }
 `;
 

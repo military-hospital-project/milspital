@@ -90,9 +90,12 @@ const Textarea = styled.textarea`
   resize: none;
   padding: 10px;
   font-size: 14px;
+  font-family: 'regular';
+  color: ${palette('gray', 0)};
   border: 1px solid ${palette('gray', 1)};
   box-sizing: border-box;
   overflow-y: auto;
+  outline: none;
 `;
 
 const CharacterCount = styled.div`
