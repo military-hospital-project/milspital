@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -28,4 +31,7 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false)
     private int userType;
+
+    @OneToMany(mappedBy = "user")
+    private List<Scrap> scraps = new ArrayList<>();
 }
