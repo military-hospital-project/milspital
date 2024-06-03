@@ -14,8 +14,6 @@ public class PostResDto {
 	private String nickname;
 	private String hospitalName;
 	private String departmentName;
-
-	// TODO : LocalDateTime -> String
 	private String createdAt;
 	private String updatedAt;
 }
