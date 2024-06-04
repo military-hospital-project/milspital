@@ -49,7 +49,7 @@ public class PostService {
 
 	/**
 	 * 게시글 상세 정보를 조회한다. (댓글 포함)
-	 * @param postId
+	 * @param postId 글 id
 	 * @return PostDetailResDto
 	 */
 	public PostDetailResDto getPostDetail(Long postId) {
