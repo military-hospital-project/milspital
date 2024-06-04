@@ -30,7 +30,7 @@ public class User extends BaseTimeEntity {
     private String nickname;
 
     @Column(nullable = false)
-    private int userType;
+    private Integer userType;
 
     @OneToMany(mappedBy = "user")
     private List<Scrap> scraps = new ArrayList<>();

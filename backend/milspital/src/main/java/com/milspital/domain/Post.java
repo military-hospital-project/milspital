@@ -34,4 +34,11 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

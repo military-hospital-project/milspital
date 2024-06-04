@@ -1,12 +1,8 @@
 package com.milspital.domain;
 
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -18,13 +14,11 @@ public class Hospital {
 	@Column(name = "hospital_id")
 	private Long id;
 
-	@Nonnull
+	@Column(nullable = false)
 	private String hospitalName;
 
 	private String phone;
 
 	private String address;
 
-	@OneToMany(mappedBy = "hospital")
-	private List<HospitalDepartment> hospitalDepartments = new ArrayList<>();
 }

@@ -20,6 +20,4 @@ public class Department {
 	@Column(nullable = false)
 	private String departmentName;
 
-	@OneToMany(mappedBy = "department")
-	private List<HospitalDepartment> hospitalDepartments = new ArrayList<>();
 }
