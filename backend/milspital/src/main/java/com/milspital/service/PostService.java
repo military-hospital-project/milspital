@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class 	PostService {
+public class PostService {
 
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
@@ -26,6 +26,7 @@ public class 	PostService {
 
 	/**
 	 * 게시글 전체 목록을 조회한다.
+	 *
 	 * @return List<PostResDto>
 	 */
 	public List<PostResDto> getPosts() {
@@ -43,6 +44,7 @@ public class 	PostService {
 					.causeOfDisease(post.getCauseOfDisease())
 					.cureProcess(post.getCureProcess())
 					.tip(post.getTip())
+					.writerId(writer.getId())
 					.nickname(writer.getNickname())
 					.hospitalName(hospital.getHospitalName())
 					.departmentName(department.getDepartmentName())
@@ -56,6 +58,7 @@ public class 	PostService {
 
 	/**
 	 * 게시글 상세 정보를 조회한다. (댓글 포함)
+	 *
 	 * @param postId 글 id
 	 * @throws IllegalArgumentException 해당 게시글이 존재하지 않을 경우
 	 * @return PostDetailResDto
@@ -130,5 +133,37 @@ public class 	PostService {
 		postRepository.save(post);
 
 		return PostResDto.builder().postId(post.getId()).build();
+	}
+
+	/**
+	 * 게시글을 수정한다.
+	 *
+	 * @param postId 게시글 id
+	 * @param postReqDto 게시글 수정 요청 정보
+	 * @throws IllegalArgumentException 게시글, 병원, 진료과 정보가 존재하지 않을 경우
+	 * @throws IllegalArgumentException 작성자가 아닌 경우
+	 * @return Void
+	 */
+	public Void updatePost(Long postId, PostReqDto postReqDto) {
+		Post post = postRepository.findById(postId)
+				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+		User user = post.getWriter();
+		if (!user.getId().equals(postReqDto.getUserId())) {
+			throw new IllegalArgumentException("해당 사용자가 작성한 게시글이 아닙니다.");
+		}
+
+		Hospital hospital = hospitalRepository.findByHospitalName(postReqDto.getHospitalName())
+				.orElseThrow(() -> new IllegalArgumentException("해당 병원이 존재하지 않습니다."));
+
+		Department department = departmentRepository.findByDepartmentName(postReqDto.getDepartmentName())
+				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
+
+		post.updatePost(postReqDto.getDiseaseName(), postReqDto.getCauseOfDisease(), postReqDto.getCureProcess(),
+				postReqDto.getTip(), user, hospital, department);
+
+		postRepository.save(post);
+
+		return null;
 	}
 }

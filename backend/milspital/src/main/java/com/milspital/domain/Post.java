@@ -54,4 +54,14 @@ public class Post extends BaseTimeEntity {
         this.hospital = hospital;
         this.department = department;
     }
+
+    public void updatePost(String diseaseName, String causeOfDisease, String cureProcess, String tip, User user, Hospital hospital, Department department) {
+        this.diseaseName = diseaseName;
+        this.causeOfDisease = causeOfDisease;
+        this.cureProcess = cureProcess;
+        this.tip = tip;
+        this.writer = user;
+        this.hospital = hospital;
+        this.department = department;
+    }
 }

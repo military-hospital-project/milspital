@@ -20,6 +20,7 @@ public class PostController {
 
 	/**
 	 * 게시글 전체 목록을 조회한다.
+	 *
 	 * @return List<PostResDto> - 200
 	 */
 	@GetMapping
@@ -30,7 +31,8 @@ public class PostController {
 
 	/**
 	 * 게시글 상세 정보를 조회한다. (댓글 포함)
-	 * @param postId 글 id
+	 *
+	 * @param postId 게시글 id
 	 * @throws IllegalArgumentException 게시글이 존재하지 않을 경우
 	 * @return PostDetailResDto - 200
 	 */
@@ -42,6 +44,7 @@ public class PostController {
 
 	/**
 	 * 게시글을 생성한다.
+	 *
 	 * @param postReqDto 게시글 생성 요청 dto
 	 * @throws IllegalArgumentException 사용자, 병원, 진료과 정보가 존재하지 않을 경우
 	 * @return PostResDto - 201
@@ -50,5 +53,18 @@ public class PostController {
 	public ResponseEntity<PostResDto> createPost(@RequestBody PostReqDto postReqDto) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(postService.createPost(postReqDto));
+	}
+
+	/**
+	 * 게시글을 수정한다.
+	 *
+	 * @param postId 게시글 id
+	 * @param postReqDto 게시글 수정 요청 dto
+	 * @return - 200
+	 */
+	@PutMapping("/{postId}")
+	public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostReqDto postReqDto) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(postService.updatePost(postId, postReqDto));
 	}
 }
