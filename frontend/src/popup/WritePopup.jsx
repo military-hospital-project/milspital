@@ -28,14 +28,15 @@ const MainContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 100;
+  box-shadow: 0 0 10px 0;
+  z-index: 200;
 `;
 
 const Content = styled.div`
   width: 1250px;
   height: fit-content;
   border: none;
-  box-shadow: 0 0 10px 0;
+
   display: flex;
   flex-direction: column;
   justify-content: center;

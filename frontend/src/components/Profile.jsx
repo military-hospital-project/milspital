@@ -13,6 +13,10 @@ export default function Profile() {
     navigate('/mypage');
   };
 
+  const handleLogout = () => {
+    navigate('/');
+  };
+
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
@@ -28,7 +32,7 @@ export default function Profile() {
             <HomeImage src={home} alt='home' />
             <div>매진매진이라네</div>
           </Nickname>
-          <Logout>로그아웃</Logout>
+          <Logout onClick={handleLogout}>로그아웃</Logout>
         </Details>
       )}
     </ProfileContainer>
@@ -37,7 +41,7 @@ export default function Profile() {
 
 const ProfileContainer = styled.div`
   position: relative;
-  z-index: 1000;
+  z-index: 100;
 `;
 
 const MyPage = styled.img`
@@ -70,7 +74,7 @@ const Details = styled.div`
 const LargeImage = styled.img`
   width: 120px;
   height: 120px;
-  border: 2px solid ${palette('gray', 0)};
+  border: 2px solid ${palette('gray', 1)};
   border-radius: 100%;
   background: white;
   margin-bottom: 10px;

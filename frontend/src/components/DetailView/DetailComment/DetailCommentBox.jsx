@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import profile from '../../../assets/images/name.webp';
 import doctorMark from '../../../assets/images/doctorMark.webp';
 
 export default function DetailCommentBox() {
+  const [isEdit, setIsEdit] = useState(true);
+  const [inputValue, setInputValue] = useState('감사합니다');
+
+  const onClickEdit = () => {
+    console.log('edit');
+    setIsEdit(!isEdit);
+  };
+
+  const onClickDelete = () => {
+    if (confirm('댓글을 삭제하시겠습니까?')) {
+      console.log('삭제');
+    }
+  };
+
+  const handleInput = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <MainContainer>
       <Header>댓글</Header>
@@ -22,10 +40,19 @@ export default function DetailCommentBox() {
           <Profile src={profile} alt='profile' />
           <CommentContainer>
             <Nickname>나는 매진이라네</Nickname>
-            <Comments>감사합니다!</Comments>
+            <MyCommentInput
+              isEdit={isEdit}
+              value={inputValue}
+              readOnly={isEdit}
+              onChange={handleInput}
+            />
             <CreatedAt>
-              <Button type='edit'>수정</Button>
-              <Button type='delete'>삭제</Button>
+              <Button type='edit' onClick={onClickEdit}>
+                {isEdit ? '수정' : '확인'}
+              </Button>
+              <Button type='delete' onClick={onClickDelete}>
+                삭제
+              </Button>
               <div>2024.05.17. 21:30:00</div>
             </CreatedAt>
           </CommentContainer>
@@ -157,7 +184,22 @@ const Comments = styled.div`
   left: 0;
   font-size: 12px;
   display: flex;
-  gap: 5px;
+  /* gap: 5px; */
+`;
+
+const MyCommentInput = styled.input`
+  box-sizing: border-box;
+  position: absolute;
+  width: 99%;
+  height: 22px;
+  padding: ${({ isEdit }) => (isEdit ? '0px' : '1px 0 1px 5px')};
+  border-radius: 4px;
+  border: ${({ isEdit }) => (isEdit ? 'none' : '1px solid #ccc')};
+  bottom: 0px;
+  left: 0;
+  font-size: 12px;
+  color: ${palette('gray', 0)};
+  outline: none;
 `;
 
 const CreatedAt = styled.div`

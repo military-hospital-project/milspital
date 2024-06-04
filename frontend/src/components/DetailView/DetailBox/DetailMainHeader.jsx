@@ -1,35 +1,68 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import WritePopup from '../../../popup/WritePopup';
 import spanner from '../../../assets/images/spanner.webp';
-import hoverspanner from '../../../assets/images/hoverspanner.webp';
-import hovertrash from '../../../assets/images/hovertrash.webp';
 import trash from '../../../assets/images/trash.webp';
 import pill from '../../../assets/images/pill.webp';
+import hoverspanner from '../../../assets/images/hoverspanner.webp';
+import hovertrash from '../../../assets/images/hovertrash.webp';
+import hoverpill from '../../../assets/images/hoverpill.webp';
+import selectpill from '../../../assets/images/selectpill.webp';
 
 export default function DetailMainHeader() {
-  const [status, setStatus] = useState(false);
+  const [isScrap, setStatus] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
 
-  const onClickPill = () => {};
+  const onClickDelete = () => {
+    if (confirm('게시글을 삭제하시겠습니까?')) {
+      alert('삭제되었습니다.');
+    }
+  };
+
   return (
-    <MainContainer>
-      <Title>
-        <TitleText>
-          처 방 전
-          {/* <span>처</span>
+    <>
+      <MainContainer>
+        <Title>
+          <TitleText>
+            처 방 전
+            {/* <span>처</span>
           <span>방</span>
           <span>전</span> */}
-        </TitleText>
-        <SmallImageWrapper>
-          <SmallImage src={spanner} backHoverImg={hoverspanner} alt='spanner' />
-          <SmallImage src={trash} backHoverImg={hovertrash} alt='trash' />
-        </SmallImageWrapper>
-        <BigImage src={pill} onClick={onClickPill} alt='pill' />
-      </Title>
-      <Warning>
-        참고용으로만 사용해 주시고 꼭 병원에 방문하여 의사와 상의하세요.
-      </Warning>
-    </MainContainer>
+          </TitleText>
+          <SmallImageWrapper>
+            <SmallImage
+              backImg={spanner}
+              backHoverImg={hoverspanner}
+              onClick={() => setIsEdit(!isEdit)}
+              alt='spanner'
+            />
+            <SmallImage
+              backImg={trash}
+              backHoverImg={hovertrash}
+              onClick={onClickDelete}
+              alt='trash'
+            />
+          </SmallImageWrapper>
+          <BigImage
+            backImg={isScrap ? selectpill : pill}
+            backHoverImg={isScrap ? selectpill : hoverpill}
+            onClick={() => {
+              setStatus(!isScrap);
+            }}
+            alt='pill'
+          />
+        </Title>
+        <Warning>
+          참고용으로만 사용해 주시고 꼭 병원에 방문하여 의사와 상의하세요.
+        </Warning>
+      </MainContainer>
+      {isEdit && (
+        <Overlay>
+          <WritePopup onClick={() => setIsEdit(!isEdit)} />
+        </Overlay>
+      )}
+    </>
   );
 }
 
@@ -62,7 +95,7 @@ const Warning = styled.div`
   display: flex;
   align-items: center;
   justify-content: start;
-  font-size: 10px;
+  font-size: 11px;
   color: ${palette('gray', 0)};
   margin: 0 0 0px 5px;
   /* padding: 5px; */
@@ -78,22 +111,37 @@ const SmallImageWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const SmallImage = styled.img`
+const SmallImage = styled.div`
   width: 20px;
   height: 20px;
+  background-image: url(${(props) => props.backImg});
+  background-size: 100%;
   cursor: pointer;
   :hover {
-    width: 20px;
-    height: 20px;
     background-image: url(${(props) => props.backHoverImg});
   }
 `;
 
-const BigImage = styled.img`
+const BigImage = styled.div`
   width: 30px;
   height: 30px;
   margin-left: auto;
   margin-right: 12px;
+  background-image: url(${(props) => props.backImg});
+  background-size: 100%;
   cursor: pointer;
   /* opacity: 50%; */
+  :hover {
+    background-image: url(${(props) => props.backHoverImg});
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 199;
 `;
