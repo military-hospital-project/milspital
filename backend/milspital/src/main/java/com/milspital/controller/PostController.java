@@ -60,11 +60,24 @@ public class PostController {
 	 *
 	 * @param postId 게시글 id
 	 * @param postReqDto 게시글 수정 요청 dto
-	 * @return - 200
+	 * @return - 204
 	 */
 	@PutMapping("/{postId}")
 	public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostReqDto postReqDto) {
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(postService.updatePost(postId, postReqDto));
+		postService.updatePost(postId, postReqDto);
+
+		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+
+	/**
+	 * 게시글을 삭제한다.
+	 *
+	 * @param postId 게시글 id
+	 * @return - 204
+	 */
+	@DeleteMapping("/{postId}")
+	public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+		postService.deletePost(postId);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }

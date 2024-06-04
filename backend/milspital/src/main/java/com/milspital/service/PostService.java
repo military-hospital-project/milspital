@@ -142,9 +142,8 @@ public class PostService {
 	 * @param postReqDto 게시글 수정 요청 정보
 	 * @throws IllegalArgumentException 게시글, 병원, 진료과 정보가 존재하지 않을 경우
 	 * @throws IllegalArgumentException 작성자가 아닌 경우
-	 * @return Void
 	 */
-	public Void updatePost(Long postId, PostReqDto postReqDto) {
+	public void updatePost(Long postId, PostReqDto postReqDto) {
 		Post post = postRepository.findById(postId)
 				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
@@ -163,7 +162,18 @@ public class PostService {
 				postReqDto.getTip(), user, hospital, department);
 
 		postRepository.save(post);
+	}
 
-		return null;
+	/**
+	 * 게시글을 삭제한다.
+	 *
+	 * @param postId 게시글 id
+	 * @throws IllegalArgumentException 해당 게시글이 존재하지 않을 경우
+	 */
+	public void deletePost(Long postId) {
+		Post post = postRepository.findById(postId)
+				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+		postRepository.delete(post);
 	}
 }
