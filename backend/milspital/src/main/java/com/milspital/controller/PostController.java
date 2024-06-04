@@ -1,7 +1,8 @@
 package com.milspital.controller;
 
-import com.milspital.dto.PostDetailResDto;
-import com.milspital.dto.PostResDto;
+import com.milspital.dto.request.PostReqDto;
+import com.milspital.dto.response.PostDetailResDto;
+import com.milspital.dto.response.PostResDto;
 import com.milspital.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,11 +31,24 @@ public class PostController {
 	/**
 	 * 게시글 상세 정보를 조회한다. (댓글 포함)
 	 * @param postId 글 id
+	 * @throws IllegalArgumentException 게시글이 존재하지 않을 경우
 	 * @return PostDetailResDto - 200
 	 */
 	@GetMapping("/{postId}")
 	public ResponseEntity<PostDetailResDto> getPostDetail(@PathVariable Long postId) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(postService.getPostDetail(postId));
+	}
+
+	/**
+	 * 게시글을 생성한다.
+	 * @param postReqDto 게시글 생성 요청 dto
+	 * @throws IllegalArgumentException 사용자, 병원, 진료과 정보가 존재하지 않을 경우
+	 * @return PostResDto - 201
+	 */
+	@PostMapping
+	public ResponseEntity<PostResDto> createPost(@RequestBody PostReqDto postReqDto) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(postService.createPost(postReqDto));
 	}
 }

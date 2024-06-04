@@ -1,10 +1,14 @@
 package com.milspital.service;
 
 import com.milspital.domain.*;
-import com.milspital.dto.CommentResDto;
-import com.milspital.dto.PostDetailResDto;
-import com.milspital.dto.PostResDto;
+import com.milspital.dto.request.PostReqDto;
+import com.milspital.dto.response.CommentResDto;
+import com.milspital.dto.response.PostDetailResDto;
+import com.milspital.dto.response.PostResDto;
+import com.milspital.repository.DepartmentRepository;
+import com.milspital.repository.HospitalRepository;
 import com.milspital.repository.PostRepository;
+import com.milspital.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +17,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class 	PostService {
 
 	private final PostRepository postRepository;
+	private final UserRepository userRepository;
+	private final HospitalRepository hospitalRepository;
+	private final DepartmentRepository departmentRepository;
 
 	/**
 	 * 게시글 전체 목록을 조회한다.
@@ -50,11 +57,12 @@ public class PostService {
 	/**
 	 * 게시글 상세 정보를 조회한다. (댓글 포함)
 	 * @param postId 글 id
+	 * @throws IllegalArgumentException 해당 게시글이 존재하지 않을 경우
 	 * @return PostDetailResDto
 	 */
 	public PostDetailResDto getPostDetail(Long postId) {
 		Post post = postRepository.findById(postId)
-						.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
 		User writer = post.getWriter();
 		Hospital hospital = post.getHospital();
@@ -90,5 +98,37 @@ public class PostService {
 				.departmentName(department.getDepartmentName())
 				.comments(commentResList)
 				.build();
+	}
+
+	/**
+	 * 게시글을 생성한다.
+	 *
+	 * @param postReqDto 게시글 생성 요청 정보
+	 * @throws IllegalArgumentException 사용자, 병원, 진료과 정보가 존재하지 않을 경우
+	 * @return PostResDto 생성된 게시글 정보
+	 */
+	public PostResDto createPost(PostReqDto postReqDto) {
+		User user = userRepository.findById(postReqDto.getUserId())
+				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
+
+		Hospital hospital = hospitalRepository.findByHospitalName(postReqDto.getHospitalName())
+				.orElseThrow(() -> new IllegalArgumentException("해당 병원이 존재하지 않습니다."));
+
+		Department department = departmentRepository.findByDepartmentName(postReqDto.getDepartmentName())
+				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
+
+		Post post = Post.builder()
+				.diseaseName(postReqDto.getDiseaseName())
+				.causeOfDisease(postReqDto.getCauseOfDisease())
+				.cureProcess(postReqDto.getCureProcess())
+				.tip(postReqDto.getTip())
+				.writer(user)
+				.hospital(hospital)
+				.department(department)
+				.build();
+
+		postRepository.save(post);
+
+		return PostResDto.builder().postId(post.getId()).build();
 	}
 }

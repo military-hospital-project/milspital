@@ -1,6 +1,7 @@
 package com.milspital.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -41,4 +42,16 @@ public class Post extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
+
+
+    @Builder
+    public Post(String diseaseName, String causeOfDisease, String cureProcess, String tip, User writer, Hospital hospital, Department department) {
+        this.diseaseName = diseaseName;
+        this.causeOfDisease = causeOfDisease;
+        this.cureProcess = cureProcess;
+        this.tip = tip;
+        this.writer = writer;
+        this.hospital = hospital;
+        this.department = department;
+    }
 }
