@@ -6,6 +6,9 @@ import lombok.Getter;
 @Getter
 @Builder
 public class PostResDto {
+	// filter
+	private Integer filter;
+
 	// post
 	private Long postId;
 	private String diseaseName;
