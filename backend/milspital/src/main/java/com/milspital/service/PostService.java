@@ -80,6 +80,7 @@ public class PostService {
 			commentResList.add(CommentResDto.builder()
 					.commentId(comment.getId())
 					.writerId(comment.getWriter().getId())
+					.userType(comment.getWriter().getUserType())
 					.nickname(comment.getWriter().getNickname())
 					.content(comment.getContent())
 					.createdAt(comment.getCreatedAt())
