@@ -64,4 +64,5 @@ public class Post extends BaseTimeEntity {
         this.hospital = hospital;
         this.department = department;
     }
+
 }

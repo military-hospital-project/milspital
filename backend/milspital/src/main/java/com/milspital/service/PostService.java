@@ -78,8 +78,10 @@ public class PostService {
 
 		for (Comment comment : comments) {
 			commentResList.add(CommentResDto.builder()
+					.filter(1)
 					.commentId(comment.getId())
 					.writerId(comment.getWriter().getId())
+					.userType(comment.getWriter().getUserType())
 					.nickname(comment.getWriter().getNickname())
 					.content(comment.getContent())
 					.createdAt(comment.getCreatedAt())
@@ -180,7 +182,10 @@ public class PostService {
 
 		postRepository.save(post);
 
-		return PostResDto.builder().filter(1).postId(post.getId()).build();
+		return PostResDto.builder()
+				.filter(1)
+				.postId(post.getId())
+				.build();
 	}
 
 	/**

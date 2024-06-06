@@ -1,6 +1,7 @@
 package com.milspital.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,15 @@ public class Comment extends BaseTimeEntity {
 	@ManyToOne
 	@JoinColumn(name = "post_id")
 	private Post post;
+
+	@Builder
+	public Comment(String content, User writer, Post post) {
+		this.content = content;
+		this.writer = writer;
+		this.post = post;
+	}
+
+	public void updateComment(String content) {
+		this.content = content;
+	}
 }
