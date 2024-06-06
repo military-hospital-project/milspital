@@ -1,10 +1,8 @@
 package com.milspital.controller;
 
-import com.milspital.dto.response.FilterResDto;
 import com.milspital.dto.request.PostReqDto;
 import com.milspital.dto.response.PostDetailResDto;
 import com.milspital.dto.response.PostResDto;
-import com.milspital.service.FilterService;
 import com.milspital.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +17,6 @@ import java.util.List;
 public class PostController {
 
 	private final PostService postService;
-	private final FilterService filterService;
 
 	/**
 	 * 게시글 전체 목록을 조회한다.
@@ -67,9 +64,8 @@ public class PostController {
 	 */
 	@PutMapping("/{postId}")
 	public ResponseEntity<PostResDto> updatePost(@PathVariable Long postId, @RequestBody PostReqDto postReqDto) {
-		postService.updatePost(postId, postReqDto);
-
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return ResponseEntity.status(HttpStatus.OK)
+					.body(postService.updatePost(postId, postReqDto));
 	}
 
 	/**

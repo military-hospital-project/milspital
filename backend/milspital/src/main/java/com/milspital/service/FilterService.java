@@ -39,10 +39,6 @@ public class FilterService {
 			throw new RuntimeException("Filtering failed");
 		}
 
-		if (response.getBody().getAbusive().equals("1")) {
-			return false;
-		}
-
-		return true;
+		return !response.getBody().getAbusive().equals("1");
 	}
 }

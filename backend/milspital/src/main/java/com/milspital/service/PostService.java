@@ -41,7 +41,7 @@ public class PostService {
 			Department department = post.getDepartment();
 
 			postListResDto.add(PostResDto.builder()
-					.filter(0)
+					.filter(1)
 					.postId(post.getId())
 					.diseaseName(post.getDiseaseName())
 					.causeOfDisease(post.getCauseOfDisease())
@@ -171,7 +171,7 @@ public class PostService {
 				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
 
 		// filtering text
-		if (filterService.filterText(postReqDto.getCureProcess()) || !filterService.filterText(postReqDto.getTip())) {
+		if (!filterService.filterText(postReqDto.getCureProcess()) || !filterService.filterText(postReqDto.getTip())) {
 			return PostResDto.builder().filter(0).postId(post.getId()).build();
 		}
 
