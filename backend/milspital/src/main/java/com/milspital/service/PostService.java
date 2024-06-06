@@ -119,6 +119,10 @@ public class PostService {
 		User user = userRepository.findById(postReqDto.getUserId())
 				.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
 
+		if (user.getUserType() == 20) {
+			throw new IllegalArgumentException("의사는 게시글을 작성할 수 없습니다.");
+		}
+		
 		Hospital hospital = hospitalRepository.findByHospitalName(postReqDto.getHospitalName())
 				.orElseThrow(() -> new IllegalArgumentException("해당 병원이 존재하지 않습니다."));
 

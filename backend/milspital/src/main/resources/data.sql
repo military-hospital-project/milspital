@@ -29,3 +29,7 @@ insert into post values (2, 2, 3, 1, '두통', '스트레스', '약물', '휴식
 
 insert into comment values (1, 2, 1, '조심하세요', '20240604120000', '20240604120000');
 insert into comment values (2, 1, 1, '님도요ㅠㅠ', '20240604123000', '20240604123000');
+
+insert into scrap values(1, 1, 2, '20240606121212', '20240606121212');
+insert into scrap values(2, 1, 1, '20240606161616', '20240606161616');
+insert into scrap values(3, 2, 1, '20240606163700', '20240606163700');

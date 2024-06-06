@@ -3,6 +3,7 @@ package com.milspital.controller;
 import com.milspital.dto.request.PostReqDto;
 import com.milspital.dto.response.PostDetailResDto;
 import com.milspital.dto.response.PostResDto;
+import com.milspital.repository.UserRepository;
 import com.milspital.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import java.util.List;
 public class PostController {
 
 	private final PostService postService;
+
+	private final UserRepository userRepository;
 
 	/**
 	 * 게시글 전체 목록을 조회한다.
@@ -46,7 +49,7 @@ public class PostController {
 	 * 게시글을 생성한다.
 	 *
 	 * @param postReqDto 게시글 생성 요청 dto
-	 * @throws IllegalArgumentException 사용자, 병원, 진료과 정보가 존재하지 않을 경우
+	 * @throws IllegalArgumentException 사용자, 병원, 진료과 정보가 존재하지 않을 경우, 의사인 경우
 	 * @return PostResDto - 201
 	 */
 	@PostMapping
