@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class CommentResDto {
-
+	private Integer filter;
 	private Long commentId;
 	private Long writerId;
 	private Integer userType;

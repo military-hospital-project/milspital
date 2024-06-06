@@ -78,6 +78,7 @@ public class PostService {
 
 		for (Comment comment : comments) {
 			commentResList.add(CommentResDto.builder()
+					.filter(1)
 					.commentId(comment.getId())
 					.writerId(comment.getWriter().getId())
 					.userType(comment.getWriter().getUserType())
