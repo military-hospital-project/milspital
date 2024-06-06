@@ -124,7 +124,7 @@ public class PostService {
 				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
 
 		// filtering text
-		if (!filterService.filterText(postReqDto.getCureProcess()) || !filterService.filterText(postReqDto.getTip())) {
+		if (filterService.isTextBad(postReqDto.getCureProcess()) || filterService.isTextBad(postReqDto.getTip())) {
 			return PostResDto.builder().filter(0).build();
 		}
 
@@ -171,7 +171,7 @@ public class PostService {
 				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
 
 		// filtering text
-		if (!filterService.filterText(postReqDto.getCureProcess()) || !filterService.filterText(postReqDto.getTip())) {
+		if (filterService.isTextBad(postReqDto.getCureProcess()) || filterService.isTextBad(postReqDto.getTip())) {
 			return PostResDto.builder().filter(0).postId(post.getId()).build();
 		}
 

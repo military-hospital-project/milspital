@@ -23,7 +23,7 @@ public class FilterService {
 	 * @param text 확인할 텍스트(글자수 500자 이내)
 	 * @return boolean - 욕설이 포함되지 않은 경우 true, 포함된 경우 false
 	 */
-	public boolean filterText(String text) {
+	public boolean isTextBad(String text) {
 		ResponseEntity<FilterResDto> response = webClient.post()
 				.uri("/check-sentences")
 				.bodyValue(FilterReqDto.builder().text(text).build())
@@ -39,6 +39,6 @@ public class FilterService {
 			throw new RuntimeException("Filtering failed");
 		}
 
-		return !response.getBody().getAbusive().equals("1");
+		return response.getBody().getAbusive().equals("1");
 	}
 }
