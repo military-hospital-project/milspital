@@ -1,6 +1,7 @@
 package com.milspital.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,10 @@ public class Scrap extends BaseTimeEntity {
 	@ManyToOne
 	@JoinColumn(name = "post_id")
 	private Post post;
+
+	@Builder
+	public Scrap(User user, Post post) {
+		this.user = user;
+		this.post = post;
+	}
 }

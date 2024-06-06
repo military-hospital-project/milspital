@@ -8,4 +8,5 @@ import lombok.Getter;
 public class ScrapReqDto {
 
 	private Long userId;
+	private Long postId;
 }
