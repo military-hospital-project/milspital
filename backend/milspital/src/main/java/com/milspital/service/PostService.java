@@ -182,7 +182,10 @@ public class PostService {
 
 		postRepository.save(post);
 
-		return PostResDto.builder().filter(1).postId(post.getId()).build();
+		return PostResDto.builder()
+				.filter(1)
+				.postId(post.getId())
+				.build();
 	}
 
 	/**

@@ -8,5 +8,6 @@ import lombok.Getter;
 public class CommentReqDto {
 
 	private Long userId;
+	private Long postId;
 	private String content;
 }
