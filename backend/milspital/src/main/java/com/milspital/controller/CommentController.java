@@ -2,6 +2,7 @@ package com.milspital.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,6 +46,18 @@ public class CommentController {
 	public ResponseEntity<CommentResDto> updateComment(@PathVariable Long commentId, @RequestBody CommentReqDto commentReqDto) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(commentService.updateComment(commentId, commentReqDto));
+	}
+
+	/**
+	 * 댓글을 삭제한다.
+	 *
+	 * @param commentId 댓글 id
+	 * @return - 204
+	 */
+	@DeleteMapping("/{commentId}")
+	public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+		commentService.deleteComment(commentId);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 }
