@@ -19,6 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
 
+	private final FilterService filterService;
+
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
 	private final HospitalRepository hospitalRepository;
@@ -39,6 +41,7 @@ public class PostService {
 			Department department = post.getDepartment();
 
 			postListResDto.add(PostResDto.builder()
+					.filter(1)
 					.postId(post.getId())
 					.diseaseName(post.getDiseaseName())
 					.causeOfDisease(post.getCauseOfDisease())
@@ -120,19 +123,27 @@ public class PostService {
 		Department department = departmentRepository.findByDepartmentName(postReqDto.getDepartmentName())
 				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
 
+		// filtering text
+		if (filterService.isTextBad(postReqDto.getCureProcess()) || filterService.isTextBad(postReqDto.getTip())) {
+			return PostResDto.builder().filter(0).build();
+		}
+
 		Post post = Post.builder()
-				.diseaseName(postReqDto.getDiseaseName())
-				.causeOfDisease(postReqDto.getCauseOfDisease())
-				.cureProcess(postReqDto.getCureProcess())
-				.tip(postReqDto.getTip())
-				.writer(user)
-				.hospital(hospital)
-				.department(department)
-				.build();
+						.diseaseName(postReqDto.getDiseaseName())
+						.causeOfDisease(postReqDto.getCauseOfDisease())
+						.cureProcess(postReqDto.getCureProcess())
+						.tip(postReqDto.getTip())
+						.writer(user)
+						.hospital(hospital)
+						.department(department)
+						.build();
 
 		postRepository.save(post);
 
-		return PostResDto.builder().postId(post.getId()).build();
+		return PostResDto.builder()
+						.filter(1)
+						.postId(post.getId())
+						.build();
 	}
 
 	/**
@@ -142,8 +153,9 @@ public class PostService {
 	 * @param postReqDto 게시글 수정 요청 정보
 	 * @throws IllegalArgumentException 게시글, 병원, 진료과 정보가 존재하지 않을 경우
 	 * @throws IllegalArgumentException 작성자가 아닌 경우
+	 * @return PostResDto 수정된 게시글 정보(욕설 감지 여부)
 	 */
-	public void updatePost(Long postId, PostReqDto postReqDto) {
+	public PostResDto updatePost(Long postId, PostReqDto postReqDto) {
 		Post post = postRepository.findById(postId)
 				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
 
@@ -158,10 +170,17 @@ public class PostService {
 		Department department = departmentRepository.findByDepartmentName(postReqDto.getDepartmentName())
 				.orElseThrow(() -> new IllegalArgumentException("해당 진료과가 존재하지 않습니다."));
 
+		// filtering text
+		if (filterService.isTextBad(postReqDto.getCureProcess()) || filterService.isTextBad(postReqDto.getTip())) {
+			return PostResDto.builder().filter(0).postId(post.getId()).build();
+		}
+
 		post.updatePost(postReqDto.getDiseaseName(), postReqDto.getCauseOfDisease(), postReqDto.getCureProcess(),
 				postReqDto.getTip(), user, hospital, department);
 
 		postRepository.save(post);
+
+		return PostResDto.builder().filter(1).postId(post.getId()).build();
 	}
 
 	/**

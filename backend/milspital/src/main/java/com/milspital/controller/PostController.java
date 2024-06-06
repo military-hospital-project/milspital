@@ -60,13 +60,12 @@ public class PostController {
 	 *
 	 * @param postId 게시글 id
 	 * @param postReqDto 게시글 수정 요청 dto
-	 * @return - 204
+	 * @return - 200
 	 */
 	@PutMapping("/{postId}")
-	public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostReqDto postReqDto) {
-		postService.updatePost(postId, postReqDto);
-
-		return ResponseEntity.status(HttpStatus.OK).build();
+	public ResponseEntity<PostResDto> updatePost(@PathVariable Long postId, @RequestBody PostReqDto postReqDto) {
+		return ResponseEntity.status(HttpStatus.OK)
+					.body(postService.updatePost(postId, postReqDto));
 	}
 
 	/**
