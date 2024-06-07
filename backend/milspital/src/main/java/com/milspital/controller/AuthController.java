@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.milspital.dto.request.SignInReqDto;
 import com.milspital.dto.request.SignUpReqDto;
 import com.milspital.dto.response.LoginResDto;
-import com.milspital.service.LoginService;
+import com.milspital.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class LoginController {
+public class AuthController {
 
-	private final LoginService loginService;
+	private final AuthService loginService;
 
 	/**
 	 * 로그인 요청을 처리한다.

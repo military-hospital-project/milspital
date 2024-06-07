@@ -1,5 +1,6 @@
 package com.milspital.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.milspital.domain.User;
@@ -12,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class AuthService {
+
+	private final PasswordEncoder passwordEncoder;
 
 	private final UserRepository userRepository;
 
@@ -26,7 +29,9 @@ public class LoginService {
 		User user = userRepository.findByArmyNumber(signInReqDto.getArmyNumber())
 			.orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
 
-		if (!user.getPassword().equals(signInReqDto.getPassword())) {
+		String rawPassword = signInReqDto.getPassword();
+
+		if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
 			throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
 		}
 
@@ -49,10 +54,12 @@ public class LoginService {
 			throw new IllegalArgumentException("이미 가입된 사용자입니다.");
 		}
 
+		String encodedPassword = passwordEncoder.encode(signUpReqDto.getPassword());
+
 		User user = User.builder()
 			.name(signUpReqDto.getName())
 			.armyNumber(signUpReqDto.getArmyNumber())
-			.password(signUpReqDto.getPassword())
+			.password(encodedPassword)
 			.nickname(signUpReqDto.getNickname())
 			.userType(signUpReqDto.getUserType())
 			.build();
