@@ -1,6 +1,7 @@
 package com.milspital.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,4 +35,13 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Scrap> scraps = new ArrayList<>();
+
+    @Builder
+    public User(String name, String armyNumber, String password, String nickname, Integer userType) {
+        this.name = name;
+        this.armyNumber = armyNumber;
+        this.password = password;
+        this.nickname = nickname;
+        this.userType = userType;
+    }
 }
