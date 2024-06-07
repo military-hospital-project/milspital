@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.milspital.dto.request.SignInReqDto;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
 
 	private final AuthService loginService;
@@ -25,7 +27,7 @@ public class AuthController {
 	 * @param signInReqDto 로그인 요청 dto
 	 * @return LoginResDto - 200
 	 */
-	@PostMapping("/signIn")
+	@PostMapping("/sign-in")
 	public ResponseEntity<LoginResDto> signIn(@RequestBody SignInReqDto signInReqDto) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(loginService.signIn(signInReqDto));
@@ -37,7 +39,7 @@ public class AuthController {
 	 * @param signUpReqDto 회원가입 요청 dto
 	 * @return LoginResDto - 201
 	 */
-	@PostMapping("/signUp")
+	@PostMapping("/sign-up")
 	public ResponseEntity<LoginResDto> signUp(@RequestBody SignUpReqDto signUpReqDto) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(loginService.signUp(signUpReqDto));
