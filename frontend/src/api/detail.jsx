@@ -1,8 +1,12 @@
 import axios from 'axios';
 
+const api = axios.create({
+  baseURL: '/api',
+});
+
 const getDetailList = async (id) => {
   try {
-    const res = await axios.get(`/api/posts/${id}`);
+    const res = await api.get(`/posts/${id}`);
     return res.data;
   } catch (err) {
     console.error('Failed to fetch post detail:', err);

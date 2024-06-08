@@ -5,7 +5,7 @@ import comment from '../../../assets/images/comment.webp';
 import uploadComment from '../../../assets/images/uploadComment.webp';
 import { postComments } from '../../../api/detail';
 
-export default function DetailComment() {
+export default function DetailComment({ postId, onCommentPosted }) {
   const [commentText, setCommentText] = useState('');
 
   const handleInputChange = (e) => {
@@ -16,7 +16,7 @@ export default function DetailComment() {
     e.preventDefault();
     const data = {
       userId: 1,
-      postId: 1,
+      postId: postId,
       content: commentText,
     };
 
@@ -24,8 +24,14 @@ export default function DetailComment() {
       const response = await postComments(data);
       console.log('Comment posted successfully:', response);
       setCommentText('');
+      if (onCommentPosted) {
+        onCommentPosted();
+      }
     } catch (error) {
-      console.error('Error posting comment:', error);
+      console.error(
+        'Error posting comment:',
+        error.response || error.message || error
+      );
     }
   };
 

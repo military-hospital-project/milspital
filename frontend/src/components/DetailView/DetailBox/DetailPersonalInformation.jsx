@@ -2,7 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 
-export default function DetailPersonalInformation() {
+export default function DetailPersonalInformation({ detail }) {
+  const formatDate = (dateString) => {
+    const date = new Date(
+      dateString.replace(
+        /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/,
+        '$1-$2-$3T$4:$5:$6'
+      )
+    );
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  };
+
   return (
     <MainContainer>
       <VerticalBox>
@@ -24,10 +41,10 @@ export default function DetailPersonalInformation() {
 
       <InformationBox>
         <HorizontalInformation borderBottom={true}>
-          <TextSpan>나는매진이라네</TextSpan>
+          <TextSpan>{detail.nickname}</TextSpan>
         </HorizontalInformation>
         <HorizontalInformation>
-          <TextSpan>2024.05.17 17:00:00</TextSpan>
+          <TextSpan>{formatDate(detail.createdAt)}</TextSpan>
         </HorizontalInformation>
       </InformationBox>
 
@@ -57,10 +74,10 @@ export default function DetailPersonalInformation() {
         <HospitalBox>
           <InformationBox>
             <HorizontalInformation borderBottom={true}>
-              <TextSpan>국군부산병원</TextSpan>
+              <TextSpan>{detail.hospitalName}</TextSpan>
             </HorizontalInformation>
             <HorizontalInformation>
-              <TextSpan>내과</TextSpan>
+              <TextSpan>{detail.departmentName}</TextSpan>
             </HorizontalInformation>
           </InformationBox>
 
@@ -79,18 +96,18 @@ export default function DetailPersonalInformation() {
             </HorizontalTitle>
           </TitleBox>
 
-          <InformationBox>
+          <InformationBox wide={true}>
             <HorizontalInformation borderBottom={true}>
-              <TextSpan>부산광역시 해운대구 세실로 186</TextSpan>
+              <TextSpan>{detail.address}</TextSpan>
             </HorizontalInformation>
             <HorizontalInformation>
-              <TextSpan>051-1234-2432</TextSpan>
+              <TextSpan>{detail.phone}</TextSpan>
             </HorizontalInformation>
           </InformationBox>
         </HospitalBox>
 
         <HorizontalInformation>
-          <TextSpan>독감으로 인한 고열, 소화 불량 및 탈수</TextSpan>
+          <TextSpan>{detail.diseaseName}</TextSpan>
         </HorizontalInformation>
       </HospitalWrapper>
     </MainContainer>
@@ -141,7 +158,7 @@ const HorizontalTitle = styled.div`
 `;
 
 const InformationBox = styled.div`
-  width: 250px;
+  width: ${(props) => (props.wide ? '350px' : '250px')};
   height: 100%;
   display: flex;
   flex-direction: column;
