@@ -2,21 +2,30 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
+import { signin } from '../../api/signinup';
 import Dogtag from '../../assets/images/dogtag.webp';
 import Password from '../../assets/images/password.webp';
 
 function Signin() {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
-    num: '',
-    pw: '',
+    armyNumber: '',
+    password: '',
   });
 
-  const { num, pw } = inputs;
+  const { armyNumber, password } = inputs;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
+  };
+
+  const onClickLogin = async () => {
+    const data = { ...inputs };
+    console.log(data);
+    // navigate('/main');
+    // const result = await login(data);
+    await signin(data);
   };
 
   return (
@@ -25,8 +34,8 @@ function Signin() {
         <InputIcon width='25px' height='25px' bgimage={Dogtag} />
         <Input
           placeholder='군번'
-          name='num'
-          value={num}
+          name='armyNumber'
+          value={armyNumber}
           onChange={handleChange}
         />
       </WrapInput>
@@ -35,14 +44,14 @@ function Signin() {
         <InputIcon width='22px' height='22px' bgimage={Password} />
         <Input
           placeholder='비밀번호'
-          name='pw'
-          value={pw}
+          name='password'
+          value={password}
           onChange={handleChange}
           type='password'
         />
       </WrapInput>
 
-      <SignButton onClick={() => navigate('/main')}>로그인</SignButton>
+      <SignButton onClick={onClickLogin}>로그인</SignButton>
     </>
   );
 }
