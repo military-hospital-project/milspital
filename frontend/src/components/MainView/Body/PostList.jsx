@@ -5,13 +5,24 @@ import PostListHeader from './PostListHeader';
 import PostListItem from './PostListItem';
 import post from '../../../assets/images/post.webp';
 import WritePopup from '../../../popup/WritePopup';
+import { getList } from '../../../api/main.jsx';
 
 export default function PostList() {
-  const items = Array.from({ length: 30 }, (_, i) => i);
-
+  const [postItems, setPostItems] = useState([]);
   const [hasOverflow, setHasOverflow] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const itemListRef = useRef(null);
+
+  useEffect(() => {
+    getList()
+      .then((data) => {
+        console.log('Fetched posts data:', data);
+        setPostItems(data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch posts:', error);
+      });
+  }, []);
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -24,7 +35,7 @@ export default function PostList() {
     checkOverflow();
 
     return () => window.removeEventListener('resize', checkOverflow);
-  }, []);
+  }, [postItems]);
 
   const openWritePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -41,7 +52,7 @@ export default function PostList() {
       <PostListHeader hasOverflow={hasOverflow} />
 
       <ItemList ref={itemListRef}>
-        {items.map((index, item) => (
+        {postItems.map((item, index) => (
           <PostListItem key={index} index={index + 1} item={item} />
         ))}
         <Image src={post} alt='post' onClick={openWritePopup} />

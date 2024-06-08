@@ -1,29 +1,23 @@
-import { axios } from './axios';
+import axios from 'axios';
 
 const getList = async () => {
-  axios
-    .get('/posts')
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(1);
-      return 1;
-    });
+  try {
+    const res = await axios.get('/api/posts'); // /api/posts로 변경
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch posts:', err);
+    throw err;
+  }
 };
 
 const getDetailList = async (id) => {
-  axios
-    .get(`/posts/${id}`)
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(1);
-      return 1;
-    });
+  try {
+    const res = await axios.get(`/api/posts/${id}`); // /api/posts로 변경
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch post detail:', err);
+    throw err;
+  }
 };
 
 export { getList, getDetailList };

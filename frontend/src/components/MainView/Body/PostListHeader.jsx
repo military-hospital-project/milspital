@@ -6,9 +6,9 @@ export default function PostListHeader({ hasOverflow }) {
   return (
     <MainContainer hasOverflow={hasOverflow}>
       <Header width='40%'>병명</Header>
-      <Header width='30%'>병원 정보</Header>
+      <Header width='22%'>병원 정보</Header>
       <Header width='15%'>닉네임</Header>
-      <Header width='12%'>게시일</Header>
+      <Header width='20%'>게시일</Header>
     </MainContainer>
   );
 }

@@ -1,89 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { palette } from 'styled-tools';
-import { getList } from '../../../api/main.jsx';
 
-export default function PostList() {
-  const [searchParams] = useSearchParams();
-  const [postItems, setPostItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
-
-  useEffect(() => {
-    getList()
-      .then((data) => {
-        setPostItems(data);
-      })
-      .catch((error) => {
-        console.error('Failed to fetch posts:', error);
-      });
-
-    const searchQuery = searchParams.get('search');
-    const sortField = searchParams.get('sort') || 'date';
-    const sortOrder = searchParams.get('sortOrder') || 'asc';
-
-    let sortedItems = [...postItems];
-    sortedItems.sort((a, b) => {
-      let valueA = a[sortField].toLowerCase();
-      let valueB = b[sortField].toLowerCase();
-
-      if (sortField === 'date') {
-        return sortOrder === 'asc'
-          ? new Date(valueA) - new Date(valueB)
-          : new Date(valueB) - new Date(valueA);
-      } else {
-        if (valueA < valueB) {
-          return sortOrder === 'asc' ? -1 : 1;
-        }
-        if (valueA > valueB) {
-          return sortOrder === 'asc' ? 1 : -1;
-        }
-        return 0;
-      }
-    });
-
-    if (searchQuery) {
-      const normalizedQuery = searchQuery.toLowerCase().replace(/\s+/g, '');
-      sortedItems = sortedItems.filter((item) =>
-        Object.values(item).some((value) =>
-          value
-            .toString()
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(normalizedQuery)
-        )
-      );
-    }
-    setFilteredItems(sortedItems);
-  }, [searchParams, postItems]);
-
-  return (
-    <div>
-      {filteredItems.map((item, index) => (
-        <PostListItem key={index} index={index} item={item} />
-      ))}
-    </div>
-  );
-}
-
-function PostListItem({ index, item }) {
+export default function PostListItem({ index, item }) {
   const navigate = useNavigate();
 
   const onClickList = () => {
-    navigate(`/detail/${item.id}`);
+    navigate(`/detail/${item.postId}`);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(
+      dateString.replace(
+        /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/,
+        '$1-$2-$3T$4:$5:$6'
+      )
+    );
+    return date.toLocaleString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
   };
 
   return (
     <MainContainer onClick={onClickList}>
       <Item width='40%' fontSize='16px' justifyContent='flex-start'>
-        {item.disease_name}
+        {item.diseaseName}
       </Item>
-      <Item width='30%' justifyContent=''>
-        <Item1>{item.hospital}</Item1>
-        <Item2>{item.department}</Item2>
+      <Item width='22%' justifyContent=''>
+        <Item1>{item.hospitalName}</Item1>
+        <Item2>{item.departmentName}</Item2>
       </Item>
       <Item width='15%'>{item.nickname}</Item>
-      <Item width='12%'>{item.date}</Item>
+      <Item width='20%'>{formatDate(item.createdAt)}</Item>
     </MainContainer>
   );
 }
