@@ -9,7 +9,7 @@ public class SignUpReqDto {
 
 	private String name;
 	private String armyNumber;
+	private String specialtyNumber;
 	private String password;
 	private String nickname;
-	private Integer userType;
 }
