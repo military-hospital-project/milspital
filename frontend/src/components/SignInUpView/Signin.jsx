@@ -25,7 +25,8 @@ function Signin() {
     console.log(data);
     // navigate('/main');
     // const result = await login(data);
-    await signin(data);
+    const result = await signin(data);
+    console.log(result);
   };
 
   return (

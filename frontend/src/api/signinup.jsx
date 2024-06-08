@@ -2,34 +2,32 @@
 import axios from 'axios';
 
 const signin = async (data) => {
-  console.log(data);
-  axios
-    .post('http://localhost:8080/auth/sign-in', {
+  try {
+    const result = await axios.post('/api/auth/sign-in', {
       armyNumber: data.armyNumber,
       password: data.password,
-    })
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(1);
-      return 1;
     });
+
+    return result;
+  } catch {
+    return 0;
+  }
 };
 
 const signup = async (data) => {
-  console.log(data);
-  axios
-    .post('/sign-up', { data })
-    .then((res) => {
-      console.log(res);
-      return res;
-    })
-    .catch((err) => {
-      console.log(1);
-      return 1;
+  try {
+    const result = await axios.post('/api/auth/sign-up', {
+      name: data.name,
+      armyNumber: data.armyNumber,
+      specialtyNumber: data.specialtyNumber,
+      password: data.password,
+      nickname: data,
     });
+
+    return result;
+  } catch {
+    return 0;
+  }
 };
 
 export { signin, signup };
