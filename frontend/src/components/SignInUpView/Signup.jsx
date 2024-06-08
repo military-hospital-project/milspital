@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
@@ -15,15 +15,26 @@ function SignUp() {
   const [status, setStatus] = useState('soldier');
   const [inputs, setInputs] = useState({
     armyNumber: '',
-    speicaltyNumber: '',
+    specialtyNumber: '',
     name: '',
     nickname: '',
     password: '',
     repassword: '',
   });
 
-  const { armyNumber, speicaltyNumber, name, nickname, password, repassword } =
+  const { armyNumber, specialtyNumber, name, nickname, password, repassword } =
     inputs;
+
+  useEffect(() => {
+    setInputs({
+      armyNumber: '',
+      specialtyNumber: '',
+      name: '',
+      nickname: '',
+      password: '',
+      repassword: '',
+    });
+  }, [status]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +47,7 @@ function SignUp() {
   };
 
   const checkInputs = () => {
-    const keys = Object.keys(inputs).filter((key) => key !== 'speicaltyNumber');
+    const keys = Object.keys(inputs).filter((key) => key !== 'specialtyNumber');
 
     for (let key of keys) {
       if (inputs[key].trim() === '') {
@@ -46,24 +57,25 @@ function SignUp() {
     return true;
   };
 
-  const checkSpecialNumber = () => {};
-
   const onClickSignup = async () => {
     const { repassword, ...newInputs } = inputs;
-    console.log(newInputs);
-    // const data = { ...inputs };
-    // console.log(checkInputs());
-    if (checkPassword() && checkInputs()) {
-      await signup(newInputs);
-      alert('회원가입에 성공했습니다.\n로그인 후 사용하실 수 있습니다.');
+    console.log(inputs);
 
-      // window.location.reload();
+    if (checkPassword() && checkInputs()) {
+      const result = await signup(newInputs);
+      console.log(result.status);
+      if (result.status === 201) {
+        alert('회원가입에 성공했습니다.\n로그인 후 사용하실 수 있습니다.');
+        window.location.reload();
+      } else {
+        alert('오류가 발생하였습니다.\n다시 시도해주십시오.');
+      }
     } else if (!checkPassword()) {
       alert('비밀번호가 다릅니다.');
     } else if (!checkInputs()) {
       alert('값을 모두 작성해주세요.');
     } else {
-      alert('에러');
+      alert('오류가 발생하였습니다.\n다시 시도해주십시오.');
     }
   };
 
@@ -71,11 +83,19 @@ function SignUp() {
     <>
       <Flex margin='0 0 15px -160px'>
         <Flex>
-          <RadioInput name='soldier' onChange={() => setStatus('soldier')} />
+          <RadioInput
+            name='soldier'
+            onChange={() => setStatus('soldier')}
+            checked={status === 'soldier'}
+          />
           <RadioLabel>장병</RadioLabel>
         </Flex>
         <Flex margin='0 0 0 10px'>
-          <RadioInput name='soldier' onChange={() => setStatus('surgeon')} />
+          <RadioInput
+            name='soldier'
+            onChange={() => setStatus('surgeon')}
+            checked={status === 'surgeon'}
+          />
           <RadioLabel>군의관</RadioLabel>
         </Flex>
       </Flex>
@@ -95,8 +115,8 @@ function SignUp() {
           <InputIcon width='25px' height='25px' bgimage={Speical} />
           <Input
             placeholder='군사특기번호'
-            name='speicaltyNumber'
-            value={speicaltyNumber}
+            name='specialtyNumber'
+            value={specialtyNumber}
             onChange={handleChange}
           />
         </WrapInput>

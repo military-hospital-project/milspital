@@ -22,10 +22,14 @@ function Signin() {
 
   const onClickLogin = async () => {
     const data = { armyNumber: inputs.armyNumber, password: inputs.password };
-    console.log(data);
-    // navigate('/main');
-    // const result = await login(data);
+
     const result = await signin(data);
+    if (result.data) {
+      sessionStorage.setItem('info', JSON.stringify(result.data));
+      navigate('/main');
+    } else {
+      alert('로그인에 실패했습니다.\n다시 시도해주십시오.');
+    }
     console.log(result);
   };
 

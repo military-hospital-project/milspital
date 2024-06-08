@@ -15,13 +15,14 @@ const signin = async (data) => {
 };
 
 const signup = async (data) => {
+  console.log(data);
   try {
-    const result = await axios.post('/api/auth/sign-up', {
+    const result = await axios.post('api/auth/sign-up', {
       name: data.name,
       armyNumber: data.armyNumber,
       specialtyNumber: data.specialtyNumber,
       password: data.password,
-      nickname: data,
+      nickname: data.nickname,
     });
 
     return result;
