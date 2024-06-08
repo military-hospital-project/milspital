@@ -2,41 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { getList } from '../../../api/main.jsx';
 
 export default function PostList() {
   const [searchParams] = useSearchParams();
-  const [postItems, setPostItems] = useState([
-    {
-      id: 1,
-      disease_name: '소화불량',
-      hospital: '국군부산병원',
-      department: '내과',
-      nickname: '나는 매진이라네',
-      date: '2024.05.25 21:00:00',
-      scrap: 5,
-    },
-    {
-      id: 2,
-      disease_name: '고열',
-      hospital: '서울병원',
-      department: '응급실',
-      nickname: '매진매진이라네',
-      date: '2024.05.26 10:00:00',
-      scrap: 10,
-    },
-    {
-      id: 3,
-      disease_name: '두통',
-      hospital: '대구병원',
-      department: '정형외과',
-      nickname: '혜진혜진',
-      date: '2024.05.27 15:30:00',
-      scrap: 1,
-    },
-  ]);
+  const [postItems, setPostItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
+    getList()
+      .then((data) => {
+        setPostItems(data);
+      })
+      .catch((error) => {
+        console.error('Failed to fetch posts:', error);
+      });
+
     const searchQuery = searchParams.get('search');
     const sortField = searchParams.get('sort') || 'date';
     const sortOrder = searchParams.get('sortOrder') || 'asc';
@@ -48,8 +29,8 @@ export default function PostList() {
 
       if (sortField === 'date') {
         return sortOrder === 'asc'
-          ? valueA.localeCompare(valueB)
-          : valueB.localeCompare(valueA);
+          ? new Date(valueA) - new Date(valueB)
+          : new Date(valueB) - new Date(valueA);
       } else {
         if (valueA < valueB) {
           return sortOrder === 'asc' ? -1 : 1;
@@ -74,7 +55,7 @@ export default function PostList() {
       );
     }
     setFilteredItems(sortedItems);
-  }, [postItems, searchParams]);
+  }, [searchParams, postItems]);
 
   return (
     <div>
@@ -89,7 +70,7 @@ function PostListItem({ index, item }) {
   const navigate = useNavigate();
 
   const onClickList = () => {
-    navigate(`/detail/${index}`);
+    navigate(`/detail/${item.id}`);
   };
 
   return (
