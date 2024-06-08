@@ -24,6 +24,9 @@ public class User extends BaseTimeEntity {
     @Column(unique = true, nullable = false)
     private String armyNumber;
 
+    @Column(length = 4)
+    private String specialtyNumber;
+
     @Column(nullable = false)
     private String password;
 
@@ -37,9 +40,10 @@ public class User extends BaseTimeEntity {
     private List<Scrap> scraps = new ArrayList<>();
 
     @Builder
-    public User(String name, String armyNumber, String password, String nickname, Integer userType) {
+    public User(String name, String armyNumber, String specialtyNumber, String password, String nickname, Integer userType) {
         this.name = name;
         this.armyNumber = armyNumber;
+        this.specialtyNumber = specialtyNumber;
         this.password = password;
         this.nickname = nickname;
         this.userType = userType;

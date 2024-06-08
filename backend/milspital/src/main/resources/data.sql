@@ -21,8 +21,8 @@ insert into department values (7, '비뇨기과');
 insert into department values (8, '정신과');
 insert into department values (9, '치과');
 
-insert into user values (1, 'yeseul', '11-12345678', '1234', 'ye', 10, '20240601000000', '20240601000000');
-insert into user values (2, 'yena', '02-98765432', '1234', 'na', 20, '20240602101010', '20240602101010');
+insert into user values (1, 'yeseul', '11-123456', '', '1234', 'ye', 10, '20240601000000', '20240601000000');
+insert into user values (2, 'yena', '20-98765', '3170', '1234', 'na', 20, '20240602101010', '20240602101010');
 
 insert into post values (1, 1, 1, 1, '감기', '바이러스', '약물', '옷을 따뜻하게 입어라', '20240601212121', '20240601212121');
 insert into post values (2, 2, 3, 1, '두통', '스트레스', '약물', '휴식을 취하라', '20240603122601', '20240604002500');
