@@ -9,8 +9,6 @@ export default function DetailReason() {
 
 `;
 
-  const formattedText = exampleText.replace(/([.?!])\s/g, '$1\n');
-
   return (
     <MainContainer>
       <Header>
@@ -19,12 +17,7 @@ export default function DetailReason() {
         <span>원</span>
         <span>인</span>
       </Header>
-      <ReasonTextarea readOnly>{exampleText}</ReasonTextarea>
-      {/* <Reason>
-        {formattedText.split('\n').map((line, index) => (
-          <ReasonBox key={index}>{line}</ReasonBox>
-        ))}
-      </Reason> */}
+      <ReasonTextarea readOnly value={exampleText} />
     </MainContainer>
   );
 }
@@ -34,8 +27,6 @@ const MainContainer = styled.div`
   height: 229px;
   display: flex;
   flex-direction: column;
-  /* align-items: start; */
-
   border-right: 1px solid ${palette('gray', 1)};
   overflow: hidden;
 `;
@@ -53,18 +44,6 @@ const Header = styled.div`
   border-bottom: 1px solid ${palette('gray', 1)};
   border-right: 1px solid ${palette('gray', 1)};
 `;
-
-// const Reason = styled.div`
-//   width: 100%;
-//   height: 270px;
-//   overflow-y: auto;
-//   color: ${palette('gray', 0)};
-// `;
-
-// const ReasonBox = styled.div`
-//   padding: 10px;
-//   border-bottom: 1px solid ${palette('gray', 1)};
-// `;
 
 const ReasonTextarea = styled.textarea`
   box-sizing: border-box;
@@ -99,7 +78,6 @@ const ReasonTextarea = styled.textarea`
   }
   &::-webkit-scrollbar-track {
     border-radius: 16px;
-    /* background: transparent; */
   }
   &::-webkit-scrollbar-thumb {
     width: 10px;

@@ -19,9 +19,10 @@ export default function DetailTreatmentProcess() {
         <span>과</span>
         <span>정</span>
       </Header>
-      <TreatmentProcessTextarea readOnly>
-        {exampleText}
-      </TreatmentProcessTextarea>
+      <TreatmentProcessTextarea
+        readOnly
+        value={exampleText}
+      ></TreatmentProcessTextarea>
 
       {/* <TreatmentProcess>
         {formattedText.split('\n').map((line, index) => (

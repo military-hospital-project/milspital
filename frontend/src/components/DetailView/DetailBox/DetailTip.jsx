@@ -18,7 +18,7 @@ export default function DetailTip() {
         <span>팁</span>
       </Header>
 
-      <TipTextarea readOnly>{exampleText}</TipTextarea>
+      <TipTextarea readOnly value={exampleText}></TipTextarea>
 
       {/* <Tip>
         {formattedText.split('\n').map((line, index) => (

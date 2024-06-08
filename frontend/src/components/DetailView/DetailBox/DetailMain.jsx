@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import DetailMainHeader from './DetailMainHeader';
@@ -6,8 +6,22 @@ import DetailPersonalInformation from './DetailPersonalInformation';
 import DetailReason from './DetailReason';
 import DetailTreatmentProcess from './DetailTreatmentProcess';
 import DetailTip from './DetailTip';
+import { getDetailList } from '../../../api/detail';
 
 export default function DetailMain() {
+  useEffect(() => {
+    const fetchDetail = async () => {
+      try {
+        const detail = await getDetailList(1);
+        console.log(detail);
+      } catch (err) {
+        console.error('Failed to fetch post detail:', err);
+      }
+    };
+
+    fetchDetail();
+  }, []);
+
   return (
     <MainContainer>
       <DetailMainHeader />

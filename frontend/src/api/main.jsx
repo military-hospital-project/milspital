@@ -10,16 +10,6 @@ const getList = async () => {
   }
 };
 
-const getDetailList = async (id) => {
-  try {
-    const res = await axios.get(`/api/posts/${id}`);
-    return res.data;
-  } catch (err) {
-    console.error('Failed to fetch post detail:', err);
-    throw err;
-  }
-};
-
 const getHospitals = async () => {
   try {
     const res = await axios.get('/api/hospitals');
@@ -50,4 +40,4 @@ const createPost = async (data) => {
   }
 };
 
-export { getList, getDetailList, getHospitals, getDepartments, createPost };
+export { getList, getHospitals, getDepartments, createPost };
