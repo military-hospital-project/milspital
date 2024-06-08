@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 
-export default function WritePopupInput({ onRequiredFieldsFilled }) {
+WritePopupInput.propTypes = {
+  onRequiredFieldsFilled: PropTypes.func.isRequired,
+  onDataChange: PropTypes.func.isRequired,
+};
+
+export default function WritePopupInput({
+  onRequiredFieldsFilled,
+  onDataChange,
+}) {
   const [cause, setCause] = useState('');
   const [treatment, setTreatment] = useState('');
   const [tips, setTips] = useState('');
 
   useEffect(() => {
     onRequiredFieldsFilled(cause.trim() !== '' && treatment.trim() !== '');
-  }, [cause, treatment, onRequiredFieldsFilled]);
+    onDataChange({ causeOfDisease: cause, cureProcess: treatment, tip: tips });
+  }, [cause, treatment, tips, onRequiredFieldsFilled, onDataChange]);
 
   return (
     <MainContainer>

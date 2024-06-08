@@ -4,7 +4,7 @@ import { palette } from 'styled-tools';
 import WritePopupSelect from './WritePopupSelect';
 import WritePopupInput from './WritePopupInput';
 
-export default function WritePopupBody({ setAllFieldsFilled }) {
+export default function WritePopupBody({ setAllFieldsFilled, onDataChange }) {
   const [selectFieldsFilled, setSelectFieldsFilled] = useState(false);
   const [inputFieldsFilled, setInputFieldsFilled] = useState(false);
 
@@ -14,8 +14,14 @@ export default function WritePopupBody({ setAllFieldsFilled }) {
 
   return (
     <Body>
-      <WritePopupSelect onAllRequiredFilled={setSelectFieldsFilled} />
-      <WritePopupInput onRequiredFieldsFilled={setInputFieldsFilled} />
+      <WritePopupSelect
+        onAllRequiredFilled={setSelectFieldsFilled}
+        onDataChange={onDataChange}
+      />
+      <WritePopupInput
+        onRequiredFieldsFilled={setInputFieldsFilled}
+        onDataChange={onDataChange}
+      />
     </Body>
   );
 }

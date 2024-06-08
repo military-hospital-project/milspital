@@ -3,9 +3,27 @@ import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import xicon from '../assets/images/xicon.webp';
 import WritePopupBody from './WritePopupBody';
+import { createPost } from '../api/main';
 
 export default function WritePopup({ onClick }) {
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
+  const [formData, setFormData] = useState({});
+
+  const handleSubmit = async () => {
+    if (!allFieldsFilled) return;
+
+    const postData = {
+      ...formData,
+      writer_id: 1,
+    };
+
+    try {
+      const response = await createPost(postData);
+      console.log('Post created successfully:', response);
+    } catch (error) {
+      console.error('Error creating post:', error);
+    }
+  };
 
   return (
     <MainContainer>
@@ -15,9 +33,14 @@ export default function WritePopup({ onClick }) {
           <Image src={xicon} alt='xicon' onClick={onClick} />
         </Header>
 
-        <WritePopupBody setAllFieldsFilled={setAllFieldsFilled} />
+        <WritePopupBody
+          setAllFieldsFilled={setAllFieldsFilled}
+          onDataChange={setFormData}
+        />
 
-        <SubmitButton disabled={!allFieldsFilled}>등록</SubmitButton>
+        <SubmitButton disabled={!allFieldsFilled} onClick={handleSubmit}>
+          등록
+        </SubmitButton>
       </Content>
     </MainContainer>
   );
@@ -36,7 +59,6 @@ const Content = styled.div`
   width: 1250px;
   height: fit-content;
   border: none;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,9 +87,6 @@ const Image = styled.img`
 const SubmitButton = styled.button`
   width: 70px;
   height: 40px;
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
   margin: auto;
   border: 1px solid ${palette('green', 0)};
   border-radius: 50px;

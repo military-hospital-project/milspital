@@ -1,15 +1,48 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { getHospitals, getDepartments } from '../api/main';
 
-export default function WritePopupSelect({ onAllRequiredFilled }) {
+WritePopupSelect.propTypes = {
+  onAllRequiredFilled: PropTypes.func.isRequired,
+  onDataChange: PropTypes.func.isRequired,
+};
+
+export default function WritePopupSelect({
+  onAllRequiredFilled,
+  onDataChange,
+}) {
   const [hospital, setHospital] = useState('');
   const [department, setDepartment] = useState('');
   const [disease, setDisease] = useState('');
+  const [hospitals, setHospitals] = useState([]);
+  const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     onAllRequiredFilled(hospital && department && disease);
-  }, [hospital, department, disease]);
+    onDataChange({
+      hospitalName: hospital,
+      departmentName: department,
+      diseaseName: disease,
+    });
+  }, [hospital, department, disease, onAllRequiredFilled, onDataChange]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const hospitalsData = await getHospitals();
+        const departmentsData = await getDepartments();
+        console.log('Hospitals:', hospitalsData);
+        console.log('Departments:', departmentsData);
+        setHospitals(hospitalsData);
+        setDepartments(departmentsData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <SelectContainer>
@@ -25,9 +58,11 @@ export default function WritePopupSelect({ onAllRequiredFilled }) {
             <option value='' disabled>
               병원을 선택하세요.
             </option>
-            <option value='hospital1'>병원1</option>
-            <option value='hospital2'>병원2</option>
-            <option value='hospital3'>병원3</option>
+            {hospitals.map((hospital) => (
+              <option key={hospital.hospitalId} value={hospital.hospitalName}>
+                {hospital.hospitalName}
+              </option>
+            ))}
           </Select>
         </SelectWrapper>
       </SelectBox>
@@ -43,9 +78,14 @@ export default function WritePopupSelect({ onAllRequiredFilled }) {
             <option value='' disabled>
               진료과를 선택하세요.
             </option>
-            <option value='department1'>내과</option>
-            <option value='department2'>외과</option>
-            <option value='department3'>소아과</option>
+            {departments.map((department) => (
+              <option
+                key={department.departmentId}
+                value={department.departmentName}
+              >
+                {department.departmentName}
+              </option>
+            ))}
           </Select>
         </SelectWrapper>
       </SelectBox>

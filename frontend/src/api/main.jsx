@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const getList = async () => {
   try {
-    const res = await axios.get('/api/posts'); // /api/posts로 변경
+    const res = await axios.get('/api/posts');
     return res.data;
   } catch (err) {
     console.error('Failed to fetch posts:', err);
@@ -12,7 +12,7 @@ const getList = async () => {
 
 const getDetailList = async (id) => {
   try {
-    const res = await axios.get(`/api/posts/${id}`); // /api/posts로 변경
+    const res = await axios.get(`/api/posts/${id}`);
     return res.data;
   } catch (err) {
     console.error('Failed to fetch post detail:', err);
@@ -20,4 +20,34 @@ const getDetailList = async (id) => {
   }
 };
 
-export { getList, getDetailList };
+const getHospitals = async () => {
+  try {
+    const res = await axios.get('/api/hospitals');
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch hoslitals:', err);
+    throw err;
+  }
+};
+
+const getDepartments = async () => {
+  try {
+    const res = await axios.get('/api/departments');
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch departments:', err);
+    throw err;
+  }
+};
+
+const createPost = async (data) => {
+  try {
+    const res = await axios.post('/api/posts', data);
+    return res.data;
+  } catch (err) {
+    console.error('Failed to create post:', err);
+    throw err;
+  }
+};
+
+export { getList, getDetailList, getHospitals, getDepartments, createPost };
