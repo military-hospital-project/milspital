@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { getPostsDetail } from '../../../api/detail';
 import DetailMainHeader from './DetailMainHeader';
 import DetailPersonalInformation from './DetailPersonalInformation';
 import DetailReason from './DetailReason';
@@ -8,6 +9,13 @@ import DetailTreatmentProcess from './DetailTreatmentProcess';
 import DetailTip from './DetailTip';
 
 export default function DetailMain() {
+  useEffect(() => {
+    async function getDetail() {
+      const data = await getPostsDetail(1);
+      console.log(data);
+    }
+    getDetail();
+  }, []);
   return (
     <MainContainer>
       <DetailMainHeader />

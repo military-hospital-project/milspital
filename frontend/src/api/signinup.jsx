@@ -1,9 +1,13 @@
-import { auth_axios } from './axios';
+// import { auth_axios } from './axios';
+import axios from 'axios';
 
 const signin = async (data) => {
   console.log(data);
-  auth_axios
-    .post('/sign-in', { data })
+  axios
+    .post('http://localhost:8080/auth/sign-in', {
+      armyNumber: data.armyNumber,
+      password: data.password,
+    })
     .then((res) => {
       console.log(res);
       return res;
@@ -16,7 +20,7 @@ const signin = async (data) => {
 
 const signup = async (data) => {
   console.log(data);
-  auth_axios
+  axios
     .post('/sign-up', { data })
     .then((res) => {
       console.log(res);

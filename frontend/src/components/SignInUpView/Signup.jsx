@@ -15,15 +15,14 @@ function SignUp() {
   const [status, setStatus] = useState('soldier');
   const [inputs, setInputs] = useState({
     armyNumber: '',
-    speicalNumber: '',
+    speicaltyNumber: '',
     name: '',
     nickname: '',
     password: '',
     repassword: '',
-    userType: 10,
   });
 
-  const { armyNumber, speicalNumber, name, nickname, password, repassword } =
+  const { armyNumber, speicaltyNumber, name, nickname, password, repassword } =
     inputs;
 
   const handleChange = (e) => {
@@ -37,7 +36,7 @@ function SignUp() {
   };
 
   const checkInputs = () => {
-    const keys = Object.keys(inputs).filter((key) => key !== 'speicalNumber');
+    const keys = Object.keys(inputs).filter((key) => key !== 'speicaltyNumber');
 
     for (let key of keys) {
       if (inputs[key].trim() === '') {
@@ -50,11 +49,15 @@ function SignUp() {
   const checkSpecialNumber = () => {};
 
   const onClickSignup = async () => {
-    const data = { ...inputs };
-    console.log(checkInputs());
+    const { repassword, ...newInputs } = inputs;
+    console.log(newInputs);
+    // const data = { ...inputs };
+    // console.log(checkInputs());
     if (checkPassword() && checkInputs()) {
+      await signup(newInputs);
       alert('회원가입에 성공했습니다.\n로그인 후 사용하실 수 있습니다.');
-      window.location.reload();
+
+      // window.location.reload();
     } else if (!checkPassword()) {
       alert('비밀번호가 다릅니다.');
     } else if (!checkInputs()) {
@@ -62,8 +65,6 @@ function SignUp() {
     } else {
       alert('에러');
     }
-
-    // await signup();
   };
 
   return (
@@ -94,8 +95,8 @@ function SignUp() {
           <InputIcon width='25px' height='25px' bgimage={Speical} />
           <Input
             placeholder='군사특기번호'
-            name='armyNumber'
-            value={speicalNumber}
+            name='speicaltyNumber'
+            value={speicaltyNumber}
             onChange={handleChange}
           />
         </WrapInput>
