@@ -11,6 +11,7 @@ WritePopupInput.propTypes = {
 export default function WritePopupInput({
   onRequiredFieldsFilled,
   onDataChange,
+  onInputChange,
 }) {
   const [cause, setCause] = useState('');
   const [treatment, setTreatment] = useState('');
@@ -19,7 +20,15 @@ export default function WritePopupInput({
   useEffect(() => {
     onRequiredFieldsFilled(cause.trim() !== '' && treatment.trim() !== '');
     onDataChange({ causeOfDisease: cause, cureProcess: treatment, tip: tips });
-  }, [cause, treatment, tips, onRequiredFieldsFilled, onDataChange]);
+    onInputChange({ causeOfDisease: cause, cureProcess: treatment, tip: tips });
+  }, [
+    cause,
+    treatment,
+    tips,
+    onRequiredFieldsFilled,
+    onDataChange,
+    onInputChange,
+  ]);
 
   return (
     <MainContainer>

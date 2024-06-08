@@ -1,32 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
-import { getPostsDetail } from '../../../api/detail';
 import DetailMainHeader from './DetailMainHeader';
 import DetailPersonalInformation from './DetailPersonalInformation';
 import DetailReason from './DetailReason';
 import DetailTreatmentProcess from './DetailTreatmentProcess';
 import DetailTip from './DetailTip';
+import DetailComment from '../DetailComment/DetailComment';
+import DetailCommentBox from '../DetailComment/DetailCommentBox';
+import { getDetailList } from '../../../api/detail';
 
 export default function DetailMain() {
-  useEffect(() => {
-    async function getDetail() {
-      const data = await getPostsDetail(1);
-      console.log(data);
+  const location = useLocation();
+
+  const [detail, setDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchDetail = async (postId) => {
+    try {
+      const detail = await getDetailList(postId);
+      console.log('Detail fetched:', detail);
+      setDetail(detail);
+    } catch (err) {
+      console.error('Failed to fetch post detail:', err);
+    } finally {
+      setLoading(false);
     }
-    getDetail();
+  };
+
+  useEffect(() => {
+    const num = parseInt(location.pathname.split('/')[2]);
+    // console.log(num);
+    fetchDetail(num);
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!detail) {
+    return <div>Failed to load detail</div>;
+  }
+
   return (
     <MainContainer>
       <DetailMainHeader />
-      <DetailPersonalInformation />
-
+      <DetailPersonalInformation detail={detail} />
       <MiddleContainer>
-        <DetailReason />
-        <DetailTreatmentProcess />
+        <DetailReason causeOfDisease={detail.causeOfDisease} />
+        <DetailTreatmentProcess cureProcess={detail.cureProcess} />
       </MiddleContainer>
-
-      <DetailTip />
+      <DetailTip tip={detail.tip} />
+      <DetailComment postId={detail.postId} onCommentPosted={fetchDetail} />
+      {detail.comments && (
+        <DetailCommentBox
+          key={detail.comments.length}
+          comments={detail.comments}
+        />
+      )}
     </MainContainer>
   );
 }
@@ -36,7 +68,6 @@ const MainContainer = styled.div`
   height: 633px;
   overflow: hidden;
   border: 2px solid ${palette('gray', 1)};
-  /* border-bottom: 1px solid ${palette('gray', 1)}; */
 `;
 
 const MiddleContainer = styled.div`

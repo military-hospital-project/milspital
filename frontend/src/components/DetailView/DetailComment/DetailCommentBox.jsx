@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import profile from '../../../assets/images/name.webp';
 import doctorMark from '../../../assets/images/doctorMark.webp';
 
-export default function DetailCommentBox() {
+export default function DetailCommentBox({ comments }) {
   const [isEdit, setIsEdit] = useState(true);
   const [inputValue, setInputValue] = useState('감사합니다');
+  const [coms, setComs] = useState([]);
+
+  useEffect(() => {}, [comments]);
 
   const onClickEdit = () => {
     console.log('edit');
@@ -27,75 +30,44 @@ export default function DetailCommentBox() {
     <MainContainer>
       <Header>댓글</Header>
       <CommentBox>
-        <Comment>
-          <Profile src={profile} alt='profile' />
-          <CommentContainer>
-            <Nickname>매진매진이</Nickname>
-            <Comments>꿀팁이군요!</Comments>
-            <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
-          </CommentContainer>
-        </Comment>
+        {coms.map((comment) =>
+          comment.writerId !== 1 ? (
+            <Comment key={comment.commentId}>
+              <Profile src={profile} alt='profile' />
+              <CommentContainer>
+                <Nickname>{comment.nickname}</Nickname>
+                <Comments>{comment.content}</Comments>
+                <CreatedAt>{comment.createdAt}</CreatedAt>
+              </CommentContainer>
+            </Comment>
+          ) : null
+        )}
 
-        <MyComment>
-          <Profile src={profile} alt='profile' />
-          <CommentContainer>
-            <Nickname>나는 매진이라네</Nickname>
-            <MyCommentInput
-              isEdit={isEdit}
-              value={inputValue}
-              readOnly={isEdit}
-              onChange={handleInput}
-            />
-            <CreatedAt>
-              <Button type='edit' onClick={onClickEdit}>
-                {isEdit ? '수정' : '확인'}
-              </Button>
-              <Button type='delete' onClick={onClickDelete}>
-                삭제
-              </Button>
-              <div>2024.05.17. 21:30:00</div>
-            </CreatedAt>
-          </CommentContainer>
-        </MyComment>
-
-        <Comment>
-          <Profile src={profile} alt='profile' />
-          <CommentContainer>
-            <Nickname>
-              의사의사야
-              <DoctorMark src={doctorMark} alt='doctorMark' />
-            </Nickname>
-            <Comments>꿀팁이군요!</Comments>
-            <CreatedAt>2024.05.17. 22:00:00</CreatedAt>
-          </CommentContainer>
-        </Comment>
-
-        <Comment>
-          <Profile src={profile} alt='profile' />
-          <CommentContainer>
-            <Nickname>매진매진이</Nickname>
-            <Comments>꿀팁이군요!</Comments>
-            <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
-          </CommentContainer>
-        </Comment>
-
-        <Comment>
-          <Profile src={profile} alt='profile' />
-          <CommentContainer>
-            <Nickname>매진매진이</Nickname>
-            <Comments>꿀팁이군요!</Comments>
-            <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
-          </CommentContainer>
-        </Comment>
-
-        <Comment>
-          <Profile src={profile} alt='profile' />
-          <CommentContainer>
-            <Nickname>매진매진이</Nickname>
-            <Comments>꿀팁이군요!</Comments>
-            <CreatedAt>2024.05.17. 21:00:00</CreatedAt>
-          </CommentContainer>
-        </Comment>
+        {coms
+          .filter((comment) => comment.writerId === 1)
+          .map((comment) => (
+            <MyComment key={comment.commentId}>
+              <Profile src={profile} alt='profile' />
+              <CommentContainer>
+                <Nickname>{comment.nickname}</Nickname>
+                <MyCommentInput
+                  isEdit={isEdit}
+                  value={inputValue}
+                  readOnly={isEdit}
+                  onChange={handleInput}
+                />
+                <CreatedAt>
+                  <Button type='edit' onClick={onClickEdit}>
+                    {isEdit ? '수정' : '확인'}
+                  </Button>
+                  <Button type='delete' onClick={onClickDelete}>
+                    삭제
+                  </Button>
+                  <div>{comment.createdAt}</div>
+                </CreatedAt>
+              </CommentContainer>
+            </MyComment>
+          ))}
       </CommentBox>
     </MainContainer>
   );
@@ -122,7 +94,6 @@ const CommentBox = styled.div`
   align-items: start;
   justify-content: start;
   margin: auto;
-  /* padding: 0 0px 0 0; */
   padding: 0 14px 14px 14px;
   overflow-y: auto;
   color: ${palette('gray', 0)};
@@ -134,7 +105,6 @@ const CommentBox = styled.div`
   }
   &::-webkit-scrollbar-track {
     border-radius: 16px;
-    /* background: transparent; */
   }
   &::-webkit-scrollbar-thumb {
     width: 30px;
@@ -184,7 +154,6 @@ const Comments = styled.div`
   left: 0;
   font-size: 12px;
   display: flex;
-  /* gap: 5px; */
 `;
 
 const MyCommentInput = styled.input`
@@ -235,9 +204,6 @@ const Button = styled.button`
   width: 30px;
   height: 16px;
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
-  /* margin: auto; */
   border: none;
   border-radius: 50px;
   color: white;

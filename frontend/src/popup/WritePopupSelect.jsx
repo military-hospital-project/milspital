@@ -12,6 +12,7 @@ WritePopupSelect.propTypes = {
 export default function WritePopupSelect({
   onAllRequiredFilled,
   onDataChange,
+  onSelectChange,
 }) {
   const [hospital, setHospital] = useState('');
   const [department, setDepartment] = useState('');
@@ -26,7 +27,20 @@ export default function WritePopupSelect({
       departmentName: department,
       diseaseName: disease,
     });
-  }, [hospital, department, disease, onAllRequiredFilled, onDataChange]);
+    onSelectChange({
+      hospitalName: hospital,
+      departmentName: department,
+      diseaseName: disease,
+    });
+    // console.log(hospital, department, disease);
+  }, [
+    hospital,
+    department,
+    disease,
+    onAllRequiredFilled,
+    onDataChange,
+    onSelectChange,
+  ]);
 
   useEffect(() => {
     const fetchData = async () => {

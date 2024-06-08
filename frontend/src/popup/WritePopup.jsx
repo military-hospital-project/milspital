@@ -8,18 +8,36 @@ import { createPost } from '../api/main';
 export default function WritePopup({ onClick }) {
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
   const [formData, setFormData] = useState({});
+  const [selectData, setSelectData] = useState({});
+  const [inputData, setInputData] = useState({});
 
   const handleSubmit = async () => {
     if (!allFieldsFilled) return;
 
+    // const postData = {
+    //   ...formData,
+    //   userId: JSON.parse(sessionStorage.getItem('info')).userId,
+    // };
+
     const postData = {
-      ...formData,
-      writer_id: 1,
+      ...selectData,
+      ...inputData,
+      userId: JSON.parse(sessionStorage.getItem('info')).userId,
     };
+
+    console.log(postData);
 
     try {
       const response = await createPost(postData);
       console.log('Post created successfully:', response);
+      if (response.filter === 1 && typeof response.postId === 'number') {
+        alert('작성글이 등록되었습니다.');
+        window.location.reload();
+      } else if (response.filter === 0 && response.postId === null) {
+        alert('욕설이 발견되었습니다.\n재작성 부탁드립니다.');
+      } else {
+        alert('오류가 발생하였습니다.\n다시 시도해주십시오.');
+      }
     } catch (error) {
       console.error('Error creating post:', error);
     }
@@ -36,6 +54,8 @@ export default function WritePopup({ onClick }) {
         <WritePopupBody
           setAllFieldsFilled={setAllFieldsFilled}
           onDataChange={setFormData}
+          onSelectChange={setSelectData}
+          onInputChange={setInputData}
         />
 
         <SubmitButton disabled={!allFieldsFilled} onClick={handleSubmit}>
