@@ -1,42 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
+import { getScraps } from '../../api/mypage';
 import MyPageItem from './MyPageItem';
 
 export default function Picker(state) {
   const navigate = useNavigate();
 
   const [status, setStatus] = useState('write');
-  const [postItems, setPostItems] = useState([
-    {
-      id: 1,
-      disease_name: '소화불량',
-      hospital: '국군부산병원',
-      department: '내과',
-      nickname: '나는 매진이라네',
-      date: '2024.05.25 21:00:00',
-      scrap: 5,
-    },
-    {
-      id: 2,
-      disease_name: '고열',
-      hospital: '서울병원',
-      department: '응급실',
-      nickname: '매진매진이라네',
-      date: '2024.05.26 10:00:00',
-      scrap: 10,
-    },
-    {
-      id: 3,
-      disease_name: '두통',
-      hospital: '대구병원',
-      department: '정형외과',
-      nickname: '혜진혜진',
-      date: '2024.05.27 15:30:00',
-      scrap: 1,
-    },
-  ]);
+  const [scrapItems, setScrapItems] = useState([]);
+  const [postItems, setPostItems] = useState([]);
+  const [deletePost, setDeletePost] = useState([]);
+
+  useEffect(() => {
+    getScraps(1).then((res) => {
+      setScrapItems(res);
+    });
+  }, [status]);
 
   return (
     <>
@@ -58,9 +39,13 @@ export default function Picker(state) {
           <DeleteBtn>선택 삭제</DeleteBtn>
         </WrapRightItem>
       </Horizontal>
-      {postItems.map((item) => {
-        return <MyPageItem key={item.id} item={item} />;
-      })}
+      {status === 'write'
+        ? postItems.map((item) => {
+            return <MyPageItem key={item.postId} items={item} />;
+          })
+        : scrapItems.map((item) => {
+            return <MyPageItem key={item.postId} items={item} />;
+          })}
     </>
   );
 }

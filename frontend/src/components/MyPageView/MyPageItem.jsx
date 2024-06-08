@@ -2,34 +2,38 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import dayjs from 'dayjs';
 
-export default function MyPageItem({ item }) {
+export default function MyPageItem({ items, onChange }) {
   const navigate = useNavigate();
-
-  console.log({ item });
+  console.log(items);
 
   const onClickList = () => {
     navigate(`/detail`);
   };
 
+  const handleCheckbox = (num) => {};
+
   return (
     <>
-      <MainContainer>
-        <Checkbox type='checkbox' />
+      <MainContainer key={items.postId}>
+        <Checkbox type='checkbox' key={items.postId} />
         <ItemHover
           onClick={onClickList}
           width='39%'
           fontSize='16px'
           justifyContent='flex-start'
         >
-          {item.disease_name}
+          {items.diseaseName}
         </ItemHover>
         <Item width='30%' justifyContent=''>
-          <Item1>{item.hospital}</Item1>
-          <Item2>{item.department}</Item2>
+          <Item1>{items.hospitalName}</Item1>
+          <Item2>{items.departmentName}</Item2>
         </Item>
-        <Item width='15%'>{item.nickname}</Item>
-        <Item width='12%'>{item.date}</Item>
+        <Item width='15%'>{items.nickname}</Item>
+        <Item width='12%'>
+          {dayjs(items.createdAt).format('YYYY.MM.DD HH:mm:ss')}
+        </Item>
       </MainContainer>
     </>
   );

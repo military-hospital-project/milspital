@@ -21,11 +21,12 @@ function Signin() {
   };
 
   const onClickLogin = async () => {
-    const data = { ...inputs };
+    const data = { armyNumber: inputs.armyNumber, password: inputs.password };
     console.log(data);
     // navigate('/main');
     // const result = await login(data);
-    await signin(data);
+    const result = await signin(data);
+    console.log(result);
   };
 
   return (

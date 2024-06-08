@@ -50,6 +50,15 @@ public class AuthService {
 	 */
 	public LoginResDto signUp(SignUpReqDto signUpReqDto) {
 
+		if (signUpReqDto.getArmyNumber().length() != 8 && signUpReqDto.getArmyNumber().length() != 9) {
+			throw new IllegalArgumentException("잘못된 군번 형식입니다.");
+		}
+
+		if (signUpReqDto.getArmyNumber().length() == 8 &&
+			(signUpReqDto.getSpecialtyNumber().isBlank() || signUpReqDto.getSpecialtyNumber().length() != 4)) {
+				throw new IllegalArgumentException("특기번호를 입력해주세요.");
+		}
+
 		if (userRepository.findByArmyNumber(signUpReqDto.getArmyNumber()).isPresent()) {
 			throw new IllegalArgumentException("이미 가입된 사용자입니다.");
 		}
@@ -59,9 +68,10 @@ public class AuthService {
 		User user = User.builder()
 			.name(signUpReqDto.getName())
 			.armyNumber(signUpReqDto.getArmyNumber())
+			.specialtyNumber(signUpReqDto.getSpecialtyNumber())
 			.password(encodedPassword)
 			.nickname(signUpReqDto.getNickname())
-			.userType(signUpReqDto.getUserType())
+			.userType(signUpReqDto.getArmyNumber().length() == 8 ? 20 : 10)
 			.build();
 
 		userRepository.save(user);

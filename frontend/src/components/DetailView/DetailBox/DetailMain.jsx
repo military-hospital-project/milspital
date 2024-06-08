@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { getPostsDetail } from '../../../api/detail';
 import DetailMainHeader from './DetailMainHeader';
 import DetailPersonalInformation from './DetailPersonalInformation';
 import DetailReason from './DetailReason';
@@ -11,33 +12,13 @@ import DetailCommentBox from '../DetailComment/DetailCommentBox';
 import { getDetailList } from '../../../api/detail';
 
 export default function DetailMain() {
-  const [detail, setDetail] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchDetail = async () => {
-    try {
-      const detail = await getDetailList(1);
-      console.log('Detail fetched:', detail);
-      setDetail(detail);
-    } catch (err) {
-      console.error('Failed to fetch post detail:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchDetail();
+    async function getDetail() {
+      const data = await getPostsDetail(1);
+      console.log(data);
+    }
+    getDetail();
   }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!detail) {
-    return <div>Failed to load detail</div>;
-  }
-
   return (
     <MainContainer>
       <DetailMainHeader />
