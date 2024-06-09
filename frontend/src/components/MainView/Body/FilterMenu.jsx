@@ -2,13 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { useSearch } from '../../../context/SearchContext';
 
 export default function FilterMenu() {
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const filterMenuRef = useRef(null);
-  const currentSortField = searchParams.get('sortField') || '';
-  const currentSortOrder = searchParams.get('sortNote') || '';
+  const {
+    setSortField,
+    setSortOrder,
+    sortField,
+    sortOrder,
+    setSearchResults,
+    postItems,
+  } = useSearch();
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -26,30 +33,49 @@ export default function FilterMenu() {
     };
   }, [filterMenuRef]);
 
+  useEffect(() => {
+    if (sortField && sortOrder) {
+      const sortedItems = [...postItems].sort((a, b) => {
+        if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
+        if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+      });
+      setSearchResults(sortedItems);
+    } else {
+      setSearchResults(postItems);
+    }
+  }, [sortField, sortOrder, postItems, setSearchResults]);
+
   const handleSort = (field) => {
     let newSortOrder = 'desc';
-    if (field === currentSortField) {
-      newSortOrder = currentSortOrder === 'asc' ? '' : 'asc';
+    if (field === sortField) {
+      newSortOrder = sortOrder === 'asc' ? '' : 'asc';
     }
 
-    setSearchParams({ sortField: field, sortOrder: newSortOrder });
-    window.location.reload();
+    if (newSortOrder === '') {
+      setSortField('');
+      setSortOrder('');
+      setSearchParams({});
+    } else {
+      setSortField(field);
+      setSortOrder(newSortOrder);
+      setSearchParams({ sortField: field, sortOrder: newSortOrder });
+    }
   };
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const sortOptions = [
-    { key: 'date', label: '날짜' },
-    // { key: 'scrap', label: '스크랩' },
-    { key: 'disease_name', label: '병명' },
-    { key: 'hospital', label: '병원' },
-    { key: 'department', label: '진료과' },
+    { key: 'createdAt', label: '날짜' },
+    { key: 'diseaseName', label: '병명' },
+    { key: 'hospitalName', label: '병원' },
+    { key: 'departmentName', label: '진료과' },
     { key: 'nickname', label: '닉네임' },
   ];
 
   const renderSortArrow = (key) => {
-    if (currentSortField === key) {
-      return currentSortOrder === 'asc' ? ' ↑' : ' ↓';
+    if (sortField === key) {
+      return sortOrder === 'asc' ? ' ↑' : ' ↓';
     }
     return '';
   };
@@ -62,18 +88,20 @@ export default function FilterMenu() {
           {sortOptions.map((option) => (
             <MenuItem
               key={option.key}
-              selected={currentSortField === option.key}
+              selected={sortField === option.key}
               onClick={() => handleSort(option.key)}
             >
               {option.label}
               {renderSortArrow(option.key)}
             </MenuItem>
           ))}
-          {currentSortField && (
+          {sortField && (
             <ResetButton
               onClick={() => {
+                setSortField('');
+                setSortOrder('');
                 setSearchParams({});
-                window.location.reload();
+                setSearchResults(postItems);
               }}
             >
               초기화

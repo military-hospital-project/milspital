@@ -10,8 +10,14 @@ import { getList } from '../../../api/main.jsx';
 import post from '../../../assets/images/post.webp';
 
 export default function PostList() {
-  const { postItems, setPostItems, searchResults, setSearchResults } =
-    useSearch();
+  const {
+    postItems,
+    setPostItems,
+    searchResults,
+    setSearchResults,
+    sortField,
+    sortOrder,
+  } = useSearch();
   const [hasOverflow, setHasOverflow] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const itemListRef = useRef(null);
@@ -59,7 +65,7 @@ export default function PostList() {
   const openWritePopup = () => setIsPopupOpen(true);
   const closePopup = () => setIsPopupOpen(false);
 
-  const displayItems = searchResults || postItems;
+  const displayItems = searchResults.length > 0 ? searchResults : postItems;
 
   return (
     <MainContainer>
