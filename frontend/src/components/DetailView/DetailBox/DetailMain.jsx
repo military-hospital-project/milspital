@@ -45,7 +45,7 @@ export default function DetailMain() {
 
   return (
     <MainContainer>
-      <DetailMainHeader />
+      <DetailMainHeader detail={detail} />
       <DetailPersonalInformation detail={detail} />
       <MiddleContainer>
         <DetailReason causeOfDisease={detail.causeOfDisease} />
