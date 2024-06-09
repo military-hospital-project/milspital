@@ -17,29 +17,39 @@ export default function DetailMainHeader({ detail }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [isScrap, setStatus] = useState(false);
+  const [userId, setUserId] = useState(
+    JSON.parse(sessionStorage.getItem('info')).userId
+  );
+  const [postId, setPostId] = useState(
+    parseInt(location.pathname.split('/')[2])
+  );
+  const [isScrap, setIsScrap] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [scraps, setScraps] = useState([]);
 
-  // console.log(detail);
+  useEffect(() => {
+    async function scrap() {
+      const result = await getScraps(userId);
+      console.log(result);
+      if (result.some((post) => post.postId === postId)) {
+        console.log(result.some((post) => post.postId === postId));
+        setIsScrap(true);
+      }
+    }
+    scrap();
+  }, []);
 
   const onClickDelete = async () => {
     if (confirm('게시글을 삭제하시겠습니까?')) {
-      const postId = parseInt(location.pathname.split('/')[2]);
-      console.log(postId);
       const result = await deletePosts(postId);
-      console.log(result);
       alert('삭제되었습니다.');
       navigate('/main');
     }
   };
 
   const onClickPill = async () => {
-    const userId = JSON.parse(sessionStorage.getItem('info')).userId;
-    const postId = parseInt(location.pathname.split('/')[2]);
     const result = await postScraps({ userId, postId });
-    console.log(result);
-    setStatus(!isScrap);
+    setIsScrap(!isScrap);
   };
 
   return (
@@ -52,20 +62,25 @@ export default function DetailMainHeader({ detail }) {
           <span>방</span>
           <span>전</span> */}
           </TitleText>
-          <SmallImageWrapper>
-            <SmallImage
-              backImg={spanner}
-              backHoverImg={hoverspanner}
-              onClick={() => setIsEdit(!isEdit)}
-              alt='spanner'
-            />
-            <SmallImage
-              backImg={trash}
-              backHoverImg={hovertrash}
-              onClick={onClickDelete}
-              alt='trash'
-            />
-          </SmallImageWrapper>
+          {detail.userId ===
+          JSON.parse(sessionStorage.getItem('info')).userId ? (
+            <SmallImageWrapper>
+              <SmallImage
+                backImg={spanner}
+                backHoverImg={hoverspanner}
+                onClick={() => setIsEdit(!isEdit)}
+                alt='spanner'
+              />
+              <SmallImage
+                backImg={trash}
+                backHoverImg={hovertrash}
+                onClick={onClickDelete}
+                alt='trash'
+              />
+            </SmallImageWrapper>
+          ) : (
+            <></>
+          )}
           <BigImage
             backImg={isScrap ? selectpill : pill}
             backHoverImg={isScrap ? selectpill : hoverpill}
