@@ -47,4 +47,6 @@ public class ScrapController {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(scrapService.scrapPost(scrapReqDto));
 	}
+
+	// TODO : 스크랩 삭제 기능 추가
 }

@@ -32,6 +32,8 @@ public class PostController {
 				.body(postService.getPosts());
 	}
 
+	// TODO : 글 조회/댓글 조회 분리
+
 	/**
 	 * 게시글 상세 정보를 조회한다. (댓글 포함)
 	 *

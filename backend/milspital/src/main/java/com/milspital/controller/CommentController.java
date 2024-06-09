@@ -23,6 +23,8 @@ public class CommentController {
 
 	private final CommentService commentService;
 
+	// TODO : 글 별 댓글 조회 기능 추가
+
 	/**
 	 * 댓글을 생성한다.
 	 *
