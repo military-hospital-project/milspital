@@ -1,5 +1,6 @@
 // import { auth_axios } from './axios';
 import axios from 'axios';
+// import { api } from './axios';
 
 const signin = async (data) => {
   try {

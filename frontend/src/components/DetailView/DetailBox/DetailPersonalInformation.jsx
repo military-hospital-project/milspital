@@ -158,7 +158,7 @@ const HorizontalTitle = styled.div`
 `;
 
 const InformationBox = styled.div`
-  width: ${(props) => (props.wide ? '350px' : '250px')};
+  width: ${(props) => (props.wide ? '380px' : '220px')};
   height: 100%;
   display: flex;
   flex-direction: column;
