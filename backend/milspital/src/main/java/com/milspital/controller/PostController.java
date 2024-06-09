@@ -19,8 +19,6 @@ public class PostController {
 
 	private final PostService postService;
 
-	private final UserRepository userRepository;
-
 	/**
 	 * 게시글 전체 목록을 조회한다.
 	 *
@@ -32,10 +30,8 @@ public class PostController {
 				.body(postService.getPosts());
 	}
 
-	// TODO : 글 조회/댓글 조회 분리
-
 	/**
-	 * 게시글 상세 정보를 조회한다. (댓글 포함)
+	 * 게시글 상세 정보를 조회한다.
 	 *
 	 * @param postId 게시글 id
 	 * @throws IllegalArgumentException 게시글이 존재하지 않을 경우

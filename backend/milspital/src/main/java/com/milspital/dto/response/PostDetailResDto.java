@@ -14,8 +14,6 @@ public class PostDetailResDto {
 	private String causeOfDisease;
 	private String cureProcess;
 	private String tip;
-	private String createdAt;
-	private String updatedAt;
 
 	// user
 	private Long userId;
@@ -30,5 +28,6 @@ public class PostDetailResDto {
 	// department
 	private String departmentName;
 
-	private List<CommentResDto> comments;
+	private String createdAt;
+	private String updatedAt;
 }

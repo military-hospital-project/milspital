@@ -60,7 +60,7 @@ public class PostService {
 	}
 
 	/**
-	 * 게시글 상세 정보를 조회한다. (댓글 포함)
+	 * 게시글 상세 정보를 조회한다.
 	 *
 	 * @param postId 글 id
 	 * @throws IllegalArgumentException 해당 게시글이 존재하지 않을 경우
@@ -73,21 +73,6 @@ public class PostService {
 		User writer = post.getWriter();
 		Hospital hospital = post.getHospital();
 		Department department = post.getDepartment();
-		List<Comment> comments = post.getComments();
-		List<CommentResDto> commentResList = new ArrayList<>();
-
-		for (Comment comment : comments) {
-			commentResList.add(CommentResDto.builder()
-					.filter(1)
-					.commentId(comment.getId())
-					.writerId(comment.getWriter().getId())
-					.userType(comment.getWriter().getUserType())
-					.nickname(comment.getWriter().getNickname())
-					.content(comment.getContent())
-					.createdAt(comment.getCreatedAt())
-					.updatedAt(comment.getUpdatedAt())
-					.build());
-		}
 
 		return PostDetailResDto.builder()
 				.postId(post.getId())
@@ -104,7 +89,6 @@ public class PostService {
 				.address(hospital.getAddress())
 				.phone(hospital.getPhone())
 				.departmentName(department.getDepartmentName())
-				.comments(commentResList)
 				.build();
 	}
 
