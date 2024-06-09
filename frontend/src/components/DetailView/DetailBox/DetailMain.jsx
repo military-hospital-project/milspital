@@ -56,7 +56,7 @@ export default function DetailMain() {
       {detail.comments && (
         <DetailCommentBox
           key={detail.comments.length}
-          comments={detail.comments}
+          comments={detail.postId}
         />
       )}
     </MainContainer>

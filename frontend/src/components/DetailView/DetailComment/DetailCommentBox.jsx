@@ -1,73 +1,136 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import dayjs from 'dayjs';
+import { getComments, putComments, deleteComments } from '../../../api/detail';
 import profile from '../../../assets/images/name.webp';
 import doctorMark from '../../../assets/images/doctorMark.webp';
 
-export default function DetailCommentBox({ comments }) {
+const MyCommentes = ({ comment, userId }) => {
+  console.log('MyComment: ', comment.content);
   const [isEdit, setIsEdit] = useState(true);
-  const [inputValue, setInputValue] = useState('감사합니다');
-  const [coms, setComs] = useState([]);
+  const [content, setContent] = useState(comment.content);
 
-  useEffect(() => {}, [comments]);
-
-  const onClickEdit = () => {
-    console.log('edit');
+  const onClickEdit = (commentId) => {
     setIsEdit(!isEdit);
+    if (isEdit === true) setIsEdit(false);
+    else {
+      const data = {
+        userId: userId,
+        content: content,
+      };
+      putComments(commentId, data).then((res) => {
+        if (res.filter === 1 || typeof res.commentId === 'number') {
+          alert('댓글이 수정되었습니다.');
+          setIsEdit(true);
+          window.location.reload();
+        } else if (res.filter === 0) {
+          alert('부적절한 단어가 검출되었습니다.');
+        } else {
+          alert('오류가 발생했습니다.\n다시 시도해주십시오.');
+        }
+      });
+    }
+  };
+  const handleInput = (e) => {
+    setContent(e.target.value);
   };
 
-  const onClickDelete = () => {
+  const onClickDelete = (commentId) => {
     if (confirm('댓글을 삭제하시겠습니까?')) {
+      deleteComments(commentId);
+      window.location.reload();
       console.log('삭제');
     }
   };
 
-  const handleInput = (e) => {
-    setInputValue(e.target.value);
-  };
+  return (
+    <MyComment>
+      <Profile src={profile} alt='profile' />
+      <CommentContainer>
+        <WrapNickname>
+          <div>{comment.nickname}</div>
+          {comment.userType === 20 && <DoctorMark />}
+        </WrapNickname>
+
+        <MyCommentInput
+          isEdit={isEdit}
+          value={content}
+          readOnly={isEdit}
+          onChange={handleInput}
+        />
+
+        <CreatedAt>
+          <Button type='edit' onClick={() => onClickEdit(comment.commentId)}>
+            {isEdit ? '수정' : '확인'}
+          </Button>
+          <Button
+            type='delete'
+            onClick={() => onClickDelete(comment.commentId)}
+          >
+            삭제
+          </Button>
+          <div>{dayjs(comment.createdAt).format('YYYY.MM.DD HH:mm:ss')}</div>
+        </CreatedAt>
+      </CommentContainer>
+    </MyComment>
+  );
+};
+
+export default function DetailCommentBox() {
+  const location = useLocation();
+  const [postId, setPostId] = useState(location.pathname.split('/')[2]);
+  const [userId, setUserId] = useState(
+    JSON.parse(sessionStorage.getItem('info')).userId
+  );
+  // const [isEdit, setIsEdit] = useState(true);
+  const [inputValue, setInputValue] = useState('감사합니다');
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    getComments(postId).then((res) => {
+      console.log(res);
+      setComments(res.data);
+    });
+  }, []);
+
+  // const onClickEdit = () => {
+  //   console.log('edit');
+  //   setIsEdit(!isEdit);
+  // };
 
   return (
     <MainContainer>
       <Header>댓글</Header>
       <CommentBox>
-        {coms.map((comment) =>
-          comment.writerId !== 1 ? (
-            <Comment key={comment.commentId}>
-              <Profile src={profile} alt='profile' />
-              <CommentContainer>
-                <Nickname>{comment.nickname}</Nickname>
-                <Comments>{comment.content}</Comments>
-                <CreatedAt>{comment.createdAt}</CreatedAt>
-              </CommentContainer>
-            </Comment>
-          ) : null
+        {comments.length === 0 ? (
+          <First>첫댓글을 작성해주세요!</First>
+        ) : (
+          comments.map((comment) =>
+            comment.writerId !== userId ? (
+              <Comment key={comment.commentId}>
+                <Profile src={profile} alt='profile' />
+                <CommentContainer>
+                  <WrapNickname>
+                    <div>{comment.nickname}</div>
+                    {comment.userType === 20 && <DoctorMark />}
+                  </WrapNickname>
+                  <Comments>{comment.content}</Comments>
+                  <CreatedAt>
+                    {dayjs(comment.createdAt).format('YYYY.MM.DD HH:mm:ss')}
+                  </CreatedAt>
+                </CommentContainer>
+              </Comment>
+            ) : (
+              <MyCommentes
+                key={comment.commentId}
+                comment={comment}
+                userId={userId}
+              />
+            )
+          )
         )}
-
-        {coms
-          .filter((comment) => comment.writerId === 1)
-          .map((comment) => (
-            <MyComment key={comment.commentId}>
-              <Profile src={profile} alt='profile' />
-              <CommentContainer>
-                <Nickname>{comment.nickname}</Nickname>
-                <MyCommentInput
-                  isEdit={isEdit}
-                  value={inputValue}
-                  readOnly={isEdit}
-                  onChange={handleInput}
-                />
-                <CreatedAt>
-                  <Button type='edit' onClick={onClickEdit}>
-                    {isEdit ? '수정' : '확인'}
-                  </Button>
-                  <Button type='delete' onClick={onClickDelete}>
-                    삭제
-                  </Button>
-                  <div>{comment.createdAt}</div>
-                </CreatedAt>
-              </CommentContainer>
-            </MyComment>
-          ))}
       </CommentBox>
     </MainContainer>
   );
@@ -88,7 +151,8 @@ const Header = styled.div`
 const CommentBox = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 430px;
+  height: fit-content;
+  max-height: 344px;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -112,6 +176,12 @@ const CommentBox = styled.div`
     border: 6px solid white;
     border-radius: 20px;
   }
+`;
+
+const First = styled.div`
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
 `;
 
 const Comment = styled.div`
@@ -140,7 +210,8 @@ const CommentContainer = styled.div`
   flex-direction: column;
 `;
 
-const Nickname = styled.div`
+const WrapNickname = styled.div`
+  display: flex;
   position: absolute;
   top: 0;
   left: 0;
@@ -194,10 +265,13 @@ const MyComment = styled.div`
   padding: 10px 0;
 `;
 
-const DoctorMark = styled.img`
+const DoctorMark = styled.div`
   width: 15px;
   height: 15px;
   margin-left: 5px;
+  margin-top: 2px;
+  background-image: url(${doctorMark});
+  background-size: 100%;
 `;
 
 const Button = styled.button`

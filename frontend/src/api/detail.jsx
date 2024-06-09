@@ -64,6 +64,16 @@ const deletePosts = async (id) => {
   }
 };
 
+const getComments = async (postId) => {
+  try {
+    const res = await axios.get(`/api/comments/${postId}`);
+    return res;
+  } catch (err) {
+    console.error('Failed to fetch delete comments:', err);
+    throw err;
+  }
+};
+
 const postComments = async (data) => {
   try {
     const res = await axios.post(`/api/comments`, data);
@@ -101,6 +111,7 @@ export {
   deleteScraps,
   putPosts,
   deletePosts,
+  getComments,
   postComments,
   putComments,
   deleteComments,
