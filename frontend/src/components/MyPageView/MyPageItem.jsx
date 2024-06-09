@@ -1,23 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import dayjs from 'dayjs';
 
-export default function MyPageItem({ items, onChange }) {
+export default function MyPageItem({
+  items,
+  handleCheckbox,
+  handleDeletes,
+  handleAll,
+  Length,
+}) {
   const navigate = useNavigate();
-  // console.log(items);
+  // console.log(handleDeletes);
+
+  useEffect(() => {
+    if (handleDeletes.length === Length) handleAll(true);
+    else handleAll(false);
+  }, [handleDeletes, Length, handleAll]);
 
   const onClickList = (postId) => {
     navigate(`/detail/${postId}`);
   };
 
-  const handleCheckbox = (num) => {};
+  const onChangeCheckbox = (postId) => {
+    handleCheckbox((prev) => {
+      const index = prev.indexOf(postId);
+      if (index === -1) {
+        return [...prev, postId];
+      } else {
+        const newArray = prev.filter((e) => e !== postId);
+        return [...newArray];
+      }
+    });
+  };
 
   return (
     <>
       <MainContainer key={items.postId}>
-        <Checkbox type='checkbox' key={items.postId} />
+        <Checkbox
+          type='checkbox'
+          key={items.postId}
+          onChange={() => onChangeCheckbox(items.postId)}
+          checked={handleDeletes.includes(items.postId)}
+        />
         <ItemHover
           onClick={() => onClickList(items.postId)}
           width='39%'

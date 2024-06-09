@@ -32,8 +32,11 @@ export default function Picker() {
     setAll(false);
   }, [status]);
 
+  // useEffect(() => {
+  //   console.log(deletes);
+  // }, [deletes]);
+
   const onClickDelete = () => {
-    console.log(deletes);
     if (deletes.length === 0) {
       alert('선택된 글이 없습니다.');
     } else {
@@ -115,6 +118,9 @@ export default function Picker() {
                 key={item.postId}
                 items={item}
                 handleCheckbox={setDeletes}
+                handleDeletes={deletes}
+                handleAll={setAll}
+                Length={postItems.length}
               />
             );
           })
@@ -124,6 +130,9 @@ export default function Picker() {
                 key={item.postId}
                 items={item}
                 handleCheckbox={setDeletes}
+                handleDeletes={deletes}
+                handleAll={setAll}
+                checkBoxAll={all}
               />
             );
           })}
