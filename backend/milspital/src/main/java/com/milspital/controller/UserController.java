@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.milspital.dto.response.PostResDto;
+import com.milspital.dto.response.UserInfoDto;
 import com.milspital.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,17 @@ public class UserController {
 
 	private final UserService userService;
 
-	// TODO : userId 보내면 닉네임, 군번, 작성글 갯수, 스크랩 갯수 보내주는 api 추가
+	/**
+	 * 사용자 정보를 조회한다.
+	 *
+	 * @param userId 사용자 id
+	 * @return UserInfoDto - 마이페이지용 사용자 정보 - 200
+	 */
+	@GetMapping("/{userId}")
+	public ResponseEntity<UserInfoDto> getUserInfo(@PathVariable Long userId) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(userService.getUserInfo(userId));
+	}
 
 	/**
 	 * 사용자가 작성한 게시글 목록을 조회한다.
