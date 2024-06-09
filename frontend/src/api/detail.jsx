@@ -34,6 +34,16 @@ const postScraps = async (data) => {
   }
 };
 
+const deleteScraps = async (data) => {
+  try {
+    const res = await axios.post(`/api/scraps/delete`, data);
+    return res;
+  } catch (err) {
+    console.error('Failed to fetch post scraps:', err);
+    throw err;
+  }
+};
+
 const putPosts = async (id, data) => {
   try {
     const res = await axios.put(`/api/posts/${id}`, data);
@@ -47,7 +57,7 @@ const putPosts = async (id, data) => {
 const deletePosts = async (id) => {
   try {
     const res = await axios.delete(`/api/posts/${id}`);
-    return res.data;
+    return res;
   } catch (err) {
     console.error('Failed to fetch delete comments:', err);
     throw err;
@@ -88,6 +98,7 @@ export {
   getDetailList,
   getScraps,
   postScraps,
+  deleteScraps,
   putPosts,
   deletePosts,
   postComments,
