@@ -20,21 +20,10 @@ export default function WritePopupSelect({
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    onAllRequiredFilled(hospital && department && disease);
-    onDataChange({
-      hospitalName: hospital,
-      departmentName: department,
-      diseaseName: disease,
-    });
-  }, [hospital, department, disease, onAllRequiredFilled, onDataChange]);
-
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const hospitalsData = await getHospitals();
         const departmentsData = await getDepartments();
-        console.log('Hospitals:', hospitalsData);
-        console.log('Departments:', departmentsData);
         setHospitals(hospitalsData);
         setDepartments(departmentsData);
       } catch (error) {
@@ -43,6 +32,16 @@ export default function WritePopupSelect({
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const allFilled = hospital && department && disease;
+    onAllRequiredFilled(allFilled);
+    onDataChange({
+      hospitalName: hospital,
+      departmentName: department,
+      diseaseName: disease,
+    });
+  }, [hospital, department, disease, onAllRequiredFilled, onDataChange]);
 
   return (
     <SelectContainer>
@@ -89,17 +88,17 @@ export default function WritePopupSelect({
           </Select>
         </SelectWrapper>
       </SelectBox>
-      <DeseaseWrapper>
+      <DiseaseWrapper>
         <Label>
           병명 <RequiredIndicator>*</RequiredIndicator>
         </Label>
-        <DeseaseInput
+        <DiseaseInput
           placeholder='병명을 입력하세요.'
           required
           value={disease}
           onChange={(e) => setDisease(e.target.value)}
         />
-      </DeseaseWrapper>
+      </DiseaseWrapper>
     </SelectContainer>
   );
 }
@@ -146,14 +145,14 @@ const Select = styled.select`
   cursor: pointer;
 `;
 
-const DeseaseWrapper = styled.div`
+const DiseaseWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 600px;
 `;
 
-const DeseaseInput = styled.input`
+const DiseaseInput = styled.input`
   box-sizing: border-box;
   width: 555px;
   height: 36px;

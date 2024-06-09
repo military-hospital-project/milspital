@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
-import { getPostsDetail } from '../../../api/detail';
 import DetailMainHeader from './DetailMainHeader';
 import DetailPersonalInformation from './DetailPersonalInformation';
 import DetailReason from './DetailReason';
@@ -12,28 +11,36 @@ import DetailCommentBox from '../DetailComment/DetailCommentBox';
 import { getDetailList } from '../../../api/detail';
 
 export default function DetailMain() {
+  const [detail, setDetail] = useState({});
+
   useEffect(() => {
-    async function getDetail() {
-      const data = await getPostsDetail(1);
-      console.log(data);
-    }
-    getDetail();
+    fetchDetail();
   }, []);
+
+  const fetchDetail = async () => {
+    const data = await getDetailList(1);
+    setDetail(data);
+  };
+
   return (
     <MainContainer>
       <DetailMainHeader />
-      <DetailPersonalInformation detail={detail} />
-      <MiddleContainer>
-        <DetailReason causeOfDisease={detail.causeOfDisease} />
-        <DetailTreatmentProcess cureProcess={detail.cureProcess} />
-      </MiddleContainer>
-      <DetailTip tip={detail.tip} />
-      <DetailComment postId={detail.postId} onCommentPosted={fetchDetail} />
-      {detail.comments && (
-        <DetailCommentBox
-          key={detail.comments.length}
-          comments={detail.comments}
-        />
+      {detail && (
+        <>
+          <DetailPersonalInformation detail={detail} />
+          <MiddleContainer>
+            <DetailReason causeOfDisease={detail.causeOfDisease} />
+            <DetailTreatmentProcess cureProcess={detail.cureProcess} />
+          </MiddleContainer>
+          <DetailTip tip={detail.tip} />
+          <DetailComment postId={detail.postId} onCommentPosted={fetchDetail} />
+          {detail.comments && (
+            <DetailCommentBox
+              key={detail.comments.length}
+              comments={detail.comments}
+            />
+          )}
+        </>
       )}
     </MainContainer>
   );

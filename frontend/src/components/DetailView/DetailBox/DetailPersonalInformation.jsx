@@ -4,6 +4,7 @@ import { palette } from 'styled-tools';
 
 export default function DetailPersonalInformation({ detail }) {
   const formatDate = (dateString) => {
+    if (!dateString) return '';
     const date = new Date(
       dateString.replace(
         /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/,
@@ -20,6 +21,8 @@ export default function DetailPersonalInformation({ detail }) {
     });
   };
 
+  if (!detail) return null;
+
   return (
     <MainContainer>
       <VerticalBox>
@@ -27,7 +30,7 @@ export default function DetailPersonalInformation({ detail }) {
         <br />자
       </VerticalBox>
       <TitleBox>
-        <HorizontalTitle borderBottom={true}>
+        <HorizontalTitle borderBottom>
           <span>작</span>
           <span>성</span>
           <span>자</span>
@@ -40,8 +43,8 @@ export default function DetailPersonalInformation({ detail }) {
       </TitleBox>
 
       <InformationBox>
-        <HorizontalInformation borderBottom={true}>
-          <TextSpan>{detail.nickname}</TextSpan>
+        <HorizontalInformation borderBottom>
+          <TextSpan>{detail.nickname || ''}</TextSpan>
         </HorizontalInformation>
         <HorizontalInformation>
           <TextSpan>{formatDate(detail.createdAt)}</TextSpan>
@@ -53,13 +56,13 @@ export default function DetailPersonalInformation({ detail }) {
       </VerticalBox>
 
       <TitleBox>
-        <HorizontalTitle borderBottom={true}>
+        <HorizontalTitle borderBottom>
           <span>진</span>
           <span>료</span>
           <span>병</span>
           <span>원</span>
         </HorizontalTitle>
-        <HorizontalTitle borderBottom={true}>
+        <HorizontalTitle borderBottom>
           <span>진</span>
           <span>료</span>
           <span>과</span>
@@ -73,16 +76,16 @@ export default function DetailPersonalInformation({ detail }) {
       <HospitalWrapper>
         <HospitalBox>
           <InformationBox>
-            <HorizontalInformation borderBottom={true}>
-              <TextSpan>{detail.hospitalName}</TextSpan>
+            <HorizontalInformation borderBottom>
+              <TextSpan>{detail.hospitalName || ''}</TextSpan>
             </HorizontalInformation>
             <HorizontalInformation>
-              <TextSpan>{detail.departmentName}</TextSpan>
+              <TextSpan>{detail.departmentName || ''}</TextSpan>
             </HorizontalInformation>
           </InformationBox>
 
           <TitleBox>
-            <HorizontalTitle borderBottom={true}>
+            <HorizontalTitle borderBottom>
               <span>병</span>
               <span>원</span>
               <span>주</span>
@@ -96,18 +99,18 @@ export default function DetailPersonalInformation({ detail }) {
             </HorizontalTitle>
           </TitleBox>
 
-          <InformationBox wide={true}>
-            <HorizontalInformation borderBottom={true}>
-              <TextSpan>{detail.address}</TextSpan>
+          <InformationBox wide>
+            <HorizontalInformation borderBottom>
+              <TextSpan>{detail.address || ''}</TextSpan>
             </HorizontalInformation>
             <HorizontalInformation>
-              <TextSpan>{detail.phone}</TextSpan>
+              <TextSpan>{detail.phone || ''}</TextSpan>
             </HorizontalInformation>
           </InformationBox>
         </HospitalBox>
 
         <HorizontalInformation>
-          <TextSpan>{detail.diseaseName}</TextSpan>
+          <TextSpan>{detail.diseaseName || ''}</TextSpan>
         </HorizontalInformation>
       </HospitalWrapper>
     </MainContainer>

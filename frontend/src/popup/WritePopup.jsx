@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import xicon from '../assets/images/xicon.webp';
@@ -7,19 +7,34 @@ import { createPost } from '../api/main';
 
 export default function WritePopup({ onClick }) {
   const [allFieldsFilled, setAllFieldsFilled] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    diseaseName: '',
+    causeOfDisease: '',
+    cureProcess: '',
+    tip: '',
+    hospitalName: '',
+    departmentName: '',
+  });
+
+  const handleDataChange = useCallback((data) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      ...data,
+    }));
+  }, []);
 
   const handleSubmit = async () => {
     if (!allFieldsFilled) return;
 
     const postData = {
+      userId: 1,
       ...formData,
-      writer_id: 1,
     };
 
     try {
       const response = await createPost(postData);
       console.log('Post created successfully:', response);
+      window.location.reload();
     } catch (error) {
       console.error('Error creating post:', error);
     }
@@ -32,12 +47,10 @@ export default function WritePopup({ onClick }) {
           <div>진료 후기 작성</div>
           <Image src={xicon} alt='xicon' onClick={onClick} />
         </Header>
-
         <WritePopupBody
           setAllFieldsFilled={setAllFieldsFilled}
-          onDataChange={setFormData}
+          onDataChange={handleDataChange}
         />
-
         <SubmitButton disabled={!allFieldsFilled} onClick={handleSubmit}>
           등록
         </SubmitButton>
