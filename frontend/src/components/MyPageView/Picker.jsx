@@ -14,7 +14,8 @@ export default function Picker(state) {
   const [deletePost, setDeletePost] = useState([]);
 
   useEffect(() => {
-    getScraps(1).then((res) => {
+    const userId = JSON.parse(sessionStorage.getItem('info')).userId;
+    getScraps(userId).then((res) => {
       setScrapItems(res);
     });
   }, [status]);

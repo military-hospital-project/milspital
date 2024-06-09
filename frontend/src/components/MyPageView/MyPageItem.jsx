@@ -8,8 +8,8 @@ export default function MyPageItem({ items, onChange }) {
   const navigate = useNavigate();
   console.log(items);
 
-  const onClickList = () => {
-    navigate(`/detail`);
+  const onClickList = (postId) => {
+    navigate(`/detail/${postId}`);
   };
 
   const handleCheckbox = (num) => {};
@@ -19,7 +19,7 @@ export default function MyPageItem({ items, onChange }) {
       <MainContainer key={items.postId}>
         <Checkbox type='checkbox' key={items.postId} />
         <ItemHover
-          onClick={onClickList}
+          onClick={() => onClickList(items.postId)}
           width='39%'
           fontSize='16px'
           justifyContent='flex-start'

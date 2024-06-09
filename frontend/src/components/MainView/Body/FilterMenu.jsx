@@ -40,7 +40,7 @@ export default function FilterMenu() {
 
   const sortOptions = [
     { key: 'date', label: '날짜' },
-    { key: 'scrap', label: '스크랩' },
+    // { key: 'scrap', label: '스크랩' },
     { key: 'disease_name', label: '병명' },
     { key: 'hospital', label: '병원' },
     { key: 'department', label: '진료과' },

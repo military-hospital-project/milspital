@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import comment from '../../../assets/images/comment.webp';
@@ -6,6 +7,8 @@ import uploadComment from '../../../assets/images/uploadComment.webp';
 import { postComments } from '../../../api/detail';
 
 export default function DetailComment({ postId, onCommentPosted }) {
+  const location = useLocation();
+
   const [commentText, setCommentText] = useState('');
 
   const handleInputChange = (e) => {
@@ -14,12 +17,14 @@ export default function DetailComment({ postId, onCommentPosted }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userId = JSON.parse(sessionStorage.getItem('info')).userId;
+    const postId = parseInt(location.pathname.split('/')[2]);
     const data = {
-      userId: 1,
+      userId: userId,
       postId: postId,
       content: commentText,
     };
-
+    // console.log(data);
     try {
       const response = await postComments(data);
       console.log('Comment posted successfully:', response);

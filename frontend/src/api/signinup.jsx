@@ -21,7 +21,7 @@ const signup = async (data) => {
       armyNumber: data.armyNumber,
       specialtyNumber: data.specialtyNumber,
       password: data.password,
-      nickname: data,
+      nickname: data.nickname,
     });
 
     return result;

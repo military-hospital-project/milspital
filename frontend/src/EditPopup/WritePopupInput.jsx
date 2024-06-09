@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
@@ -12,12 +12,13 @@ export default function WritePopupInput({
   onRequiredFieldsFilled,
   onDataChange,
   onInputChange,
+  inputDetail,
 }) {
-  const [cause, setCause] = useState('');
-  const [treatment, setTreatment] = useState('');
-  const [tips, setTips] = useState('');
+  const [cause, setCause] = useState(inputDetail.causeOfDisease);
+  const [treatment, setTreatment] = useState(inputDetail.cureProcess);
+  const [tips, setTips] = useState(inputDetail.tip);
 
-  const handleFieldChange = useCallback(() => {
+  useEffect(() => {
     onRequiredFieldsFilled(cause.trim() !== '' && treatment.trim() !== '');
     onDataChange({ causeOfDisease: cause, cureProcess: treatment, tip: tips });
     onInputChange({ causeOfDisease: cause, cureProcess: treatment, tip: tips });
@@ -29,10 +30,6 @@ export default function WritePopupInput({
     onDataChange,
     onInputChange,
   ]);
-
-  useEffect(() => {
-    handleFieldChange();
-  }, [cause, treatment, tips, handleFieldChange]);
 
   return (
     <MainContainer>

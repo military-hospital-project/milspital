@@ -4,9 +4,10 @@ import { palette } from 'styled-tools';
 import profile from '../../../assets/images/name.webp';
 import doctorMark from '../../../assets/images/doctorMark.webp';
 
-export default function DetailCommentBox({ comments = [] }) {
+export default function DetailCommentBox({ comments }) {
   const [isEdit, setIsEdit] = useState(true);
   const [inputValue, setInputValue] = useState('감사합니다');
+  const [coms, setComs] = useState([]);
 
   useEffect(() => {}, [comments]);
 
@@ -29,7 +30,7 @@ export default function DetailCommentBox({ comments = [] }) {
     <MainContainer>
       <Header>댓글</Header>
       <CommentBox>
-        {comments.map((comment) =>
+        {coms.map((comment) =>
           comment.writerId !== 1 ? (
             <Comment key={comment.commentId}>
               <Profile src={profile} alt='profile' />
@@ -41,7 +42,8 @@ export default function DetailCommentBox({ comments = [] }) {
             </Comment>
           ) : null
         )}
-        {comments
+
+        {coms
           .filter((comment) => comment.writerId === 1)
           .map((comment) => (
             <MyComment key={comment.commentId}>

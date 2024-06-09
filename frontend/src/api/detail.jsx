@@ -34,6 +34,26 @@ const postScraps = async (data) => {
   }
 };
 
+const putPosts = async (id, data) => {
+  try {
+    const res = await axios.put(`/api/posts/${id}`, data);
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch put comments:', err);
+    throw err;
+  }
+};
+
+const deletePosts = async (id) => {
+  try {
+    const res = await axios.delete(`/api/posts/${id}`);
+    return res.data;
+  } catch (err) {
+    console.error('Failed to fetch delete comments:', err);
+    throw err;
+  }
+};
+
 const postComments = async (data) => {
   try {
     const res = await axios.post(`/api/comments`, data);
@@ -44,7 +64,7 @@ const postComments = async (data) => {
   }
 };
 
-const putComments = async (id) => {
+const putComments = async (id, data) => {
   try {
     const res = await axios.put(`/api/comments/${id}`, data);
     return res.data;
@@ -68,6 +88,8 @@ export {
   getDetailList,
   getScraps,
   postScraps,
+  putPosts,
+  deletePosts,
   postComments,
   putComments,
   deleteComments,

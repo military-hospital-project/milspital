@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
-import WritePopup from '../../../popup/WritePopup';
+import { deletePosts, postScraps } from '../../../api/detail';
+import { getScraps } from '../../../api/mypage';
+import WritePopup from '../../../EditPopup/WritePopup';
 import spanner from '../../../assets/images/spanner.webp';
 import trash from '../../../assets/images/trash.webp';
 import pill from '../../../assets/images/pill.webp';
@@ -10,14 +13,33 @@ import hovertrash from '../../../assets/images/hovertrash.webp';
 import hoverpill from '../../../assets/images/hoverpill.webp';
 import selectpill from '../../../assets/images/selectpill.webp';
 
-export default function DetailMainHeader() {
+export default function DetailMainHeader({ detail }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [isScrap, setStatus] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [scraps, setScraps] = useState([]);
 
-  const onClickDelete = () => {
+  // console.log(detail);
+
+  const onClickDelete = async () => {
     if (confirm('게시글을 삭제하시겠습니까?')) {
+      const postId = parseInt(location.pathname.split('/')[2]);
+      console.log(postId);
+      const result = await deletePosts(postId);
+      console.log(result);
       alert('삭제되었습니다.');
+      navigate('/main');
     }
+  };
+
+  const onClickPill = async () => {
+    const userId = JSON.parse(sessionStorage.getItem('info')).userId;
+    const postId = parseInt(location.pathname.split('/')[2]);
+    const result = await postScraps({ userId, postId });
+    console.log(result);
+    setStatus(!isScrap);
   };
 
   return (
@@ -47,9 +69,7 @@ export default function DetailMainHeader() {
           <BigImage
             backImg={isScrap ? selectpill : pill}
             backHoverImg={isScrap ? selectpill : hoverpill}
-            onClick={() => {
-              setStatus(!isScrap);
-            }}
+            onClick={onClickPill}
             alt='pill'
           />
         </Title>
@@ -59,7 +79,7 @@ export default function DetailMainHeader() {
       </MainContainer>
       {isEdit && (
         <Overlay>
-          <WritePopup onClick={() => setIsEdit(!isEdit)} />
+          <WritePopup onClick={() => setIsEdit(!isEdit)} detail={detail} />
         </Overlay>
       )}
     </>

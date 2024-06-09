@@ -4,7 +4,6 @@ import { palette } from 'styled-tools';
 
 export default function DetailPersonalInformation({ detail }) {
   const formatDate = (dateString) => {
-    if (!dateString) return '';
     const date = new Date(
       dateString.replace(
         /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/,
@@ -20,8 +19,6 @@ export default function DetailPersonalInformation({ detail }) {
       second: '2-digit',
     });
   };
-
-  if (!detail) return null;
 
   return (
     <MainContainer>
@@ -43,8 +40,8 @@ export default function DetailPersonalInformation({ detail }) {
       </TitleBox>
 
       <InformationBox>
-        <HorizontalInformation borderBottom>
-          <TextSpan>{detail.nickname || ''}</TextSpan>
+        <HorizontalInformation borderBottom={true}>
+          <TextSpan>{detail.nickname}</TextSpan>
         </HorizontalInformation>
         <HorizontalInformation>
           <TextSpan>{formatDate(detail.createdAt)}</TextSpan>
@@ -76,11 +73,11 @@ export default function DetailPersonalInformation({ detail }) {
       <HospitalWrapper>
         <HospitalBox>
           <InformationBox>
-            <HorizontalInformation borderBottom>
-              <TextSpan>{detail.hospitalName || ''}</TextSpan>
+            <HorizontalInformation borderBottom={true}>
+              <TextSpan>{detail.hospitalName}</TextSpan>
             </HorizontalInformation>
             <HorizontalInformation>
-              <TextSpan>{detail.departmentName || ''}</TextSpan>
+              <TextSpan>{detail.departmentName}</TextSpan>
             </HorizontalInformation>
           </InformationBox>
 
@@ -99,18 +96,18 @@ export default function DetailPersonalInformation({ detail }) {
             </HorizontalTitle>
           </TitleBox>
 
-          <InformationBox wide>
-            <HorizontalInformation borderBottom>
-              <TextSpan>{detail.address || ''}</TextSpan>
+          <InformationBox wide={true}>
+            <HorizontalInformation borderBottom={true}>
+              <TextSpan>{detail.address}</TextSpan>
             </HorizontalInformation>
             <HorizontalInformation>
-              <TextSpan>{detail.phone || ''}</TextSpan>
+              <TextSpan>{detail.phone}</TextSpan>
             </HorizontalInformation>
           </InformationBox>
         </HospitalBox>
 
         <HorizontalInformation>
-          <TextSpan>{detail.diseaseName || ''}</TextSpan>
+          <TextSpan>{detail.diseaseName}</TextSpan>
         </HorizontalInformation>
       </HospitalWrapper>
     </MainContainer>

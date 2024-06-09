@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
 import { useNavigate } from 'react-router-dom';
@@ -6,14 +6,22 @@ import name from '../assets/images/name.webp';
 import home from '../assets/images/home.webp';
 
 export default function Profile() {
-  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [nickname, setNickname] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const data = JSON.parse(sessionStorage.getItem('info'));
+    // console.log(data);
+    setNickname(data.nickname);
+  }, []);
 
   const handleMyPageClick = () => {
     navigate('/mypage');
   };
 
   const handleLogout = () => {
+    sessionStorage.removeItem('info');
     navigate('/');
   };
 
@@ -30,7 +38,7 @@ export default function Profile() {
           <LargeImage src={name} alt='name' />
           <Nickname onClick={handleMyPageClick}>
             <HomeImage src={home} alt='home' />
-            <div>매진매진이라네</div>
+            <div>{nickname}</div>
           </Nickname>
           <Logout onClick={handleLogout}>로그아웃</Logout>
         </Details>

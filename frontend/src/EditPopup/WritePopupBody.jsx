@@ -9,6 +9,8 @@ export default function WritePopupBody({
   onDataChange,
   onSelectChange,
   onInputChange,
+  selectDetail,
+  inputDetail,
 }) {
   const [selectFieldsFilled, setSelectFieldsFilled] = useState(false);
   const [inputFieldsFilled, setInputFieldsFilled] = useState(false);
@@ -23,11 +25,13 @@ export default function WritePopupBody({
         onAllRequiredFilled={setSelectFieldsFilled}
         onDataChange={onDataChange}
         onSelectChange={onSelectChange}
+        selectDetail={selectDetail}
       />
       <WritePopupInput
         onRequiredFieldsFilled={setInputFieldsFilled}
         onDataChange={onDataChange}
         onInputChange={onInputChange}
+        inputDetail={inputDetail}
       />
     </Body>
   );
