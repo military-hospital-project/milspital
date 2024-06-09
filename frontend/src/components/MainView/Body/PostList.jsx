@@ -65,7 +65,8 @@ export default function PostList() {
   const openWritePopup = () => setIsPopupOpen(true);
   const closePopup = () => setIsPopupOpen(false);
 
-  const displayItems = searchResults.length > 0 ? searchResults : postItems;
+  const displayItems =
+    searchResults && searchResults.length > 0 ? searchResults : postItems;
 
   return (
     <MainContainer>
