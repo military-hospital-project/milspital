@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.milspital.domain.Department;
 import com.milspital.domain.Hospital;
@@ -70,7 +71,7 @@ public class ScrapService {
 	 * @param scrapReqDto 스크랩 요청 dto
 	 * @return PostResDto 스크랩한 게시글 id
 	 */
-	public PostResDto scrapPost(ScrapReqDto scrapReqDto) {
+	public PostResDto createScrap(ScrapReqDto scrapReqDto) {
 		User user = userRepository.findById(scrapReqDto.getUserId())
 			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
 
@@ -91,5 +92,21 @@ public class ScrapService {
 		return PostResDto.builder()
 			.postId(post.getId())
 			.build();
+	}
+
+	@Transactional
+	public void deleteScrap(Long userId, List<Integer> deleteList) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다."));
+
+		for (Integer postId : deleteList) {
+			Post post = postRepository.findById(postId.longValue())
+				.orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+			Scrap scrap = scrapRepository.findByUserAndPost(user, post)
+				.orElseThrow(() -> new IllegalArgumentException("스크랩하지 않은 글입니다."));
+
+			scrapRepository.deleteById(scrap.getId());
+		}
 	}
 }

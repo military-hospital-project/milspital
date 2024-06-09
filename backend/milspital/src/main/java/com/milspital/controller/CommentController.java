@@ -1,8 +1,11 @@
 package com.milspital.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +25,18 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
 
 	private final CommentService commentService;
+
+	/**
+	 * 게시글에 해당하는 댓글 목록을 조회한다.
+	 *
+	 * @param postId 게시글 id
+	 * @return CommentResDto - 200
+	 */
+	@GetMapping("/{postId}")
+	public ResponseEntity<List<CommentResDto>> getCommentsByPost(@PathVariable Long postId) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(commentService.getCommentsByPost(postId));
+	}
 
 	/**
 	 * 댓글을 생성한다.

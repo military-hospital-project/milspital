@@ -1,5 +1,8 @@
 package com.milspital.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.milspital.domain.Comment;
@@ -22,6 +25,35 @@ public class CommentService {
 	private final CommentRepository commentRepository;
 	private final PostRepository postRepository;
 	private final UserRepository userRepository;
+
+	/**
+	 * 게시글에 해당하는 댓글 목록을 조회한다.
+	 *
+	 * @param postId 게시글 id
+	 * @return List<CommentResDto> 댓글 목록
+	 */
+	public List<CommentResDto> getCommentsByPost(Long postId) {
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+
+		List<Comment> comments = post.getComments();
+		List<CommentResDto> commentResList = new ArrayList<>();
+
+		for (Comment comment : comments) {
+			commentResList.add(CommentResDto.builder()
+				.filter(1)
+				.commentId(comment.getId())
+				.writerId(comment.getWriter().getId())
+				.userType(comment.getWriter().getUserType())
+				.nickname(comment.getWriter().getNickname())
+				.content(comment.getContent())
+				.createdAt(comment.getCreatedAt())
+				.updatedAt(comment.getUpdatedAt())
+				.build());
+		}
+
+		return commentResList;
+	}
 
 	/**
 	 * 댓글을 생성한다.
@@ -90,4 +122,5 @@ public class CommentService {
 
 		commentRepository.delete(comment);
 	}
+
 }

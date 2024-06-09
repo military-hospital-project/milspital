@@ -8,8 +8,8 @@ drop table if exists user;
 create table user (
                       user_id bigint not null auto_increment,
                       name varchar(10) not null,
-                      army_number varchar(255) not null,
-                      specialty_number varchar(10),
+                      army_number varchar(11) not null,
+                      specialty_number varchar(4),
                       password varchar(200) not null,
                       nickname varchar(10) not null,
                       user_type int not null,

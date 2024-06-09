@@ -3,7 +3,6 @@ package com.milspital.controller;
 import com.milspital.dto.request.PostReqDto;
 import com.milspital.dto.response.PostDetailResDto;
 import com.milspital.dto.response.PostResDto;
-import com.milspital.repository.UserRepository;
 import com.milspital.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,6 @@ public class PostController {
 
 	private final PostService postService;
 
-	private final UserRepository userRepository;
-
 	/**
 	 * 게시글 전체 목록을 조회한다.
 	 *
@@ -33,7 +30,7 @@ public class PostController {
 	}
 
 	/**
-	 * 게시글 상세 정보를 조회한다. (댓글 포함)
+	 * 게시글 상세 정보를 조회한다.
 	 *
 	 * @param postId 게시글 id
 	 * @throws IllegalArgumentException 게시글이 존재하지 않을 경우

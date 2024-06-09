@@ -3,8 +3,6 @@ package com.milspital.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @Builder
 public class PostDetailResDto {
@@ -14,8 +12,6 @@ public class PostDetailResDto {
 	private String causeOfDisease;
 	private String cureProcess;
 	private String tip;
-	private String createdAt;
-	private String updatedAt;
 
 	// user
 	private Long userId;
@@ -30,5 +26,6 @@ public class PostDetailResDto {
 	// department
 	private String departmentName;
 
-	private List<CommentResDto> comments;
+	private String createdAt;
+	private String updatedAt;
 }

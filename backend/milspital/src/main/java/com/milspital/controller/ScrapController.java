@@ -1,6 +1,7 @@
 package com.milspital.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,23 @@ public class ScrapController {
 	 * @return PostResDto - 201
 	 */
 	@PostMapping
-	public ResponseEntity<PostResDto> scrapPost(@RequestBody ScrapReqDto scrapReqDto) {
+	public ResponseEntity<PostResDto> createScrap(@RequestBody ScrapReqDto scrapReqDto) {
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(scrapService.scrapPost(scrapReqDto));
+				.body(scrapService.createScrap(scrapReqDto));
+	}
+
+	/**
+	 * 스크랩한 게시글을 삭제한다.
+	 *
+	 * @param scrapReq 스크랩 삭제 요청 정보 - userId, deleteList
+	 * @return - 204
+	 */
+	@PostMapping("/delete")
+	public ResponseEntity<Void> deleteScrap(@RequestBody Map<String, Object> scrapReq) {
+		Long userId = ((Number)scrapReq.get("userId")).longValue();
+		List<Integer> deleteList = (List<Integer>) scrapReq.get("deleteList");
+
+		scrapService.deleteScrap(userId, deleteList);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 }
