@@ -1,50 +1,49 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
-import comment from '../../../assets/images/comment.webp';
-import uploadComment from '../../../assets/images/uploadComment.webp';
+import commentIcon from '../../../assets/images/comment.webp';
+import uploadCommentIcon from '../../../assets/images/uploadComment.webp';
 import { postComments } from '../../../api/detail';
+
+const USER_ID = 1; // Temporary hardcoded user ID
 
 export default function DetailComment({ postId, onCommentPosted }) {
   const [commentText, setCommentText] = useState('');
 
   const handleInputChange = (e) => {
-    setCommentText(e.target.value);
+    setCommentText(e.target.value.trim());
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!commentText) {
+      console.error('Comment text is empty.');
+      return;
+    }
     const data = {
-      userId: 1,
+      userId: USER_ID,
       postId: postId,
       content: commentText,
     };
 
-    try {
-      const response = await postComments(data);
+    const response = await postComments(data);
+    if (response) {
       console.log('Comment posted successfully:', response);
       setCommentText('');
-      if (onCommentPosted) {
-        onCommentPosted();
-      }
-    } catch (error) {
-      console.error(
-        'Error posting comment:',
-        error.response || error.message || error
-      );
+      onCommentPosted && onCommentPosted();
     }
   };
 
   return (
     <MainContainer onSubmit={handleSubmit}>
-      <Image src={comment} alt='comment' />
+      <Image src={commentIcon} alt='Comment' />
       <CommentInput
         placeholder='댓글을 입력해주세요.'
         value={commentText}
         onChange={handleInputChange}
       />
       <SubmitButton type='submit'>
-        <Image src={uploadComment} alt='uploadComment' />
+        <Image src={uploadCommentIcon} alt='Upload Comment' />
       </SubmitButton>
     </MainContainer>
   );

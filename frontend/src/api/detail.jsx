@@ -9,58 +9,58 @@ const getDetailList = async (id) => {
     const res = await api.get(`/posts/${id}`);
     return res.data;
   } catch (err) {
-    console.error('Failed to fetch post detail:', err);
-    throw err;
+    console.error('Failed to fetch post detail:', err.message);
+    return null;
   }
 };
 
 const getScraps = async (id) => {
   try {
-    const res = await axios.get(`/api/scraps/${id}`);
+    const res = await api.get(`/scraps/${id}`);
     return res.data;
   } catch (err) {
-    console.error('Failed to fetch get scraps:', err);
-    throw err;
+    console.error('Failed to fetch scraps:', err.message);
+    return null;
   }
 };
 
 const postScraps = async (data) => {
   try {
-    const res = await axios.post(`/api/scraps`, data);
+    const res = await api.post(`/scraps`, data);
     return res.data;
   } catch (err) {
-    console.error('Failed to fetch post scraps:', err);
-    throw err;
+    console.error('Failed to post scraps:', err.message);
+    return null;
   }
 };
 
 const postComments = async (data) => {
   try {
-    const res = await axios.post(`/api/comments`, data);
+    const res = await api.post(`/comments`, data);
     return res.data;
   } catch (err) {
-    console.error('Failed to fetch post comments:', err);
-    throw err;
+    console.error('Failed to post comments:', err.message);
+    return null;
   }
 };
 
-const putComments = async (id) => {
+const putComments = async (id, data) => {
   try {
-    const res = await axios.put(`/api/comments/${id}`, data);
+    const res = await api.put(`/comments/${id}`, data);
     return res.data;
   } catch (err) {
-    console.error('Failed to fetch put comments:', err);
-    throw err;
+    console.error('Failed to update comments:', err.message);
+    return null;
   }
 };
 
 const deleteComments = async (id) => {
   try {
-    const res = await axios.delete(`/api/comments/${id}`);
+    const res = await api.delete(`/comments/${id}`);
     return res.data;
   } catch (err) {
-    console.error('Failed to fetch delete comments:', err);
-    throw err;
+    console.error('Failed to delete comments:', err.message);
+    return null;
   }
 };
 
