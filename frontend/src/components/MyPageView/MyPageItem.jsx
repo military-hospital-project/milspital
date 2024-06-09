@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 
 export default function MyPageItem({ items, onChange }) {
   const navigate = useNavigate();
-  console.log(items);
+  // console.log(items);
 
   const onClickList = (postId) => {
     navigate(`/detail/${postId}`);

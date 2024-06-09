@@ -1,5 +1,25 @@
 import axios from 'axios';
 
+const getUsers = async (userId) => {
+  try {
+    const result = await axios.get(`/api/users/${userId}`);
+    // console.log(result);
+    return result.data;
+  } catch {
+    return {};
+  }
+};
+
+const getPosts = async (userId) => {
+  try {
+    const result = await axios.get(`/api/users/${userId}/posts`);
+    // console.log(result);
+    return result.data;
+  } catch {
+    return {};
+  }
+};
+
 const getScraps = async (userId) => {
   try {
     const result = await axios.get(`/api/scraps/${userId}`);
@@ -9,4 +29,4 @@ const getScraps = async (userId) => {
   }
 };
 
-export { getScraps };
+export { getUsers, getPosts, getScraps };
