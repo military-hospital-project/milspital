@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
-import { deletePosts, postScraps } from '../../../api/detail';
+import { deletePosts, postScraps, deleteScraps } from '../../../api/detail';
 import { getScraps } from '../../../api/mypage';
 import WritePopup from '../../../EditPopup/WritePopup';
 import spanner from '../../../assets/images/spanner.webp';
@@ -48,8 +48,18 @@ export default function DetailMainHeader({ detail }) {
   };
 
   const onClickPill = async () => {
-    const result = await postScraps({ userId, postId });
-    setIsScrap(!isScrap);
+    if (isScrap === false) {
+      const result = await postScraps({ userId, postId });
+      // console.log(result);
+      setIsScrap(true);
+    } else {
+      const result = await deleteScraps({
+        userId: userId,
+        deleteList: [postId],
+      });
+      // console.log(result);
+      setIsScrap(false);
+    }
   };
 
   return (
