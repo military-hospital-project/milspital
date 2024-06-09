@@ -3,7 +3,6 @@ package com.milspital.controller;
 import com.milspital.dto.request.PostReqDto;
 import com.milspital.dto.response.PostDetailResDto;
 import com.milspital.dto.response.PostResDto;
-import com.milspital.repository.UserRepository;
 import com.milspital.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

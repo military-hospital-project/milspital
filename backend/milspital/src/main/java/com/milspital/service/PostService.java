@@ -2,7 +2,6 @@ package com.milspital.service;
 
 import com.milspital.domain.*;
 import com.milspital.dto.request.PostReqDto;
-import com.milspital.dto.response.CommentResDto;
 import com.milspital.dto.response.PostDetailResDto;
 import com.milspital.dto.response.PostResDto;
 import com.milspital.repository.DepartmentRepository;
