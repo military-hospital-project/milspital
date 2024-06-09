@@ -1,39 +1,83 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearch } from '../../../context/SearchContext';
 import searchImage from '../../../assets/images/search.webp';
 import ambulanceImage from '../../../assets/images/ambulance.webp';
 
-export default function MainSearch() {
+export default function MainSearch({ postData }) {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const { setSearchResults, setPostItems } = useSearch();
+  const [searchParams] = useSearchParams();
 
-  const handleSearch = () => {
-    if (searchTerm) {
-      const params = new URLSearchParams();
-      params.set('search', searchTerm);
-      navigate({ search: `?${params.toString()}` });
-      window.location.reload();
+  useEffect(() => {
+    const searchQuery = searchParams.get('search') || '';
+    setSearchTerm(searchQuery);
+    if (searchQuery && postData) {
+      handleSearch(searchQuery);
+    } else {
+      setSearchResults(postData);
     }
+  }, [searchParams, postData]);
+
+  const handleSearch = (query) => {
+    if (!postData) return;
+    if (!query) {
+      setSearchResults(postData);
+      navigate(window.location.pathname);
+      return;
+    }
+    const lowerCaseQuery = query.toLowerCase();
+    const filtered = postData.filter(
+      (item) =>
+        item.diseaseName.toLowerCase().includes(lowerCaseQuery) ||
+        item.hospitalName.toLowerCase().includes(lowerCaseQuery) ||
+        item.departmentName.toLowerCase().includes(lowerCaseQuery) ||
+        item.nickname.toLowerCase().includes(lowerCaseQuery)
+    );
+    setSearchResults(filtered);
+  };
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      handleSearch();
+      handleSearch(searchTerm);
+      if (searchTerm) {
+        navigate(`?search=${searchTerm}`);
+      } else {
+        navigate(window.location.pathname);
+      }
+    }
+  };
+
+  const handleClickSearch = () => {
+    handleSearch(searchTerm);
+    if (searchTerm) {
+      navigate(`?search=${searchTerm}`);
+    } else {
+      navigate(window.location.pathname);
     }
   };
 
   return (
     <SearchInput>
-      <SearchImage src={searchImage} alt='search' onClick={handleSearch} />
+      <SearchImage src={searchImage} alt='search' onClick={handleClickSearch} />
       <Search
-        placeholder='검색시작'
+        placeholder='검색 시작'
         value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        onChange={handleInputChange}
         onKeyDown={handleKeyDown}
       />
-      <AmbulanceImage src={ambulanceImage} alt='ambulance' />
+      <AmbulanceImage
+        src={ambulanceImage}
+        alt='ambulance'
+        onClick={handleClickSearch}
+      />
     </SearchInput>
   );
 }
@@ -68,4 +112,5 @@ const SearchImage = styled.img`
 const AmbulanceImage = styled.img`
   width: 30px;
   height: 30px;
+  cursor: pointer;
 `;

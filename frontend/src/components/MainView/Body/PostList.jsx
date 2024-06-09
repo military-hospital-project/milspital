@@ -1,58 +1,72 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { useSearchParams } from 'react-router-dom';
+import { useSearch } from '../../../context/SearchContext';
 import PostListHeader from './PostListHeader';
 import PostListItem from './PostListItem';
-import post from '../../../assets/images/post.webp';
 import WritePopup from '../../../popup/WritePopup';
 import { getList } from '../../../api/main.jsx';
+import post from '../../../assets/images/post.webp';
 
 export default function PostList() {
-  const [postItems, setPostItems] = useState([]);
+  const { postItems, setPostItems, searchResults, setSearchResults } =
+    useSearch();
   const [hasOverflow, setHasOverflow] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const itemListRef = useRef(null);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     getList()
       .then((data) => {
         console.log('Fetched posts data:', data);
-        setPostItems(data);
+        const searchQuery = searchParams.get('search') || '';
+        if (searchQuery) {
+          const lowerCaseQuery = searchQuery.toLowerCase();
+          const filtered = data.filter(
+            (item) =>
+              item.diseaseName.toLowerCase().includes(lowerCaseQuery) ||
+              item.hospitalName.toLowerCase().includes(lowerCaseQuery) ||
+              item.departmentName.toLowerCase().includes(lowerCaseQuery) ||
+              item.nickname.toLowerCase().includes(lowerCaseQuery)
+          );
+          setSearchResults(filtered);
+        } else {
+          setPostItems(data);
+          setSearchResults(data); // 전체 데이터를 설정합니다.
+        }
       })
       .catch((error) => {
         console.error('Failed to fetch posts:', error);
       });
-  }, []);
+  }, [searchParams, setPostItems, setSearchResults]);
 
   useEffect(() => {
     const checkOverflow = () => {
       const current = itemListRef.current;
-      const hasScrollbar = current.scrollHeight > current.clientHeight;
-      setHasOverflow(hasScrollbar);
+      if (current) {
+        setHasOverflow(current.scrollHeight > current.clientHeight);
+      }
     };
 
     window.addEventListener('resize', checkOverflow);
     checkOverflow();
 
     return () => window.removeEventListener('resize', checkOverflow);
-  }, [postItems]);
+  }, [postItems, searchResults]);
 
-  const openWritePopup = () => {
-    setIsPopupOpen(!isPopupOpen);
-  };
+  const openWritePopup = () => setIsPopupOpen(true);
+  const closePopup = () => setIsPopupOpen(false);
 
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
+  const displayItems = searchResults || postItems;
 
   return (
     <MainContainer>
       {isPopupOpen && <WritePopup onClick={closePopup} />}
-
       <PostListHeader hasOverflow={hasOverflow} />
-
       <ItemList ref={itemListRef}>
-        {postItems.map((item, index) => (
+        {displayItems.map((item, index) => (
           <PostListItem key={index} index={index + 1} item={item} />
         ))}
         <Image src={post} alt='post' onClick={openWritePopup} />
@@ -77,7 +91,6 @@ const ItemList = styled.div`
   }
   &::-webkit-scrollbar-track {
     border-radius: 16px;
-    /* background: transparent; */
   }
   &::-webkit-scrollbar-thumb {
     width: 30px;
