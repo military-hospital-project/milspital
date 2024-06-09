@@ -29,6 +29,7 @@ export default function DetailComment({ postId, onCommentPosted }) {
       const response = await postComments(data);
       console.log('Comment posted successfully:', response);
       setCommentText('');
+      window.location.reload();
       if (onCommentPosted) {
         onCommentPosted();
       }
