@@ -12,7 +12,7 @@ import com.milspital.domain.User;
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 	List<Scrap> findByUser(User user);
 
-	Optional<Object> findByUserAndPost(User user, Post post);
+	Optional<Scrap> findByUserAndPost(User user, Post post);
 
 	Integer countByUser(User user);
 }
