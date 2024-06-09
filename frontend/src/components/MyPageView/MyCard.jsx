@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from 'styled-tools';
+import { getUsers } from '../../api/mypage';
 import name from '../../assets/images/name.webp';
 import logo from '../../assets/images/logo4.webp';
 
 export default function MyCard() {
+  const [info, setInfo] = useState({});
+  const [userId, setUserId] = useState(
+    JSON.parse(sessionStorage.getItem('info')).userId
+  );
+  useEffect(() => {
+    getUsers(userId)
+      .then((res) => {
+        console.log(res);
+        setInfo(res);
+      })
+      .catch((err) => {
+        console.log('error');
+      });
+  }, []);
+
   return (
     <CardContainer>
       <Logo src={logo}></Logo>
       <VerticalBox>
         <Image src={name}></Image>
         <div>
-          <Name>군필여대생쨩</Name>
-          <Nickname>2018158014</Nickname>
-          <Info>작성글 : 4개</Info>
-          <Info>스크랩 : 7개</Info>
+          <Name>{info.nickname}</Name>
+          <Nickname>{info.militaryNumber}</Nickname>
+          <Info>작성글 : {info.postCount}개</Info>
+          <Info>스크랩 : {info.scrapCount}개</Info>
         </div>
       </VerticalBox>
       <Title>장병들의 빠른 완쾌를 기원합니다.</Title>

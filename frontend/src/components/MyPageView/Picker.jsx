@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { palette } from 'styled-tools';
-import { getScraps } from '../../api/mypage';
+import { getPosts, getScraps } from '../../api/mypage';
 import MyPageItem from './MyPageItem';
 
 export default function Picker(state) {
@@ -15,9 +15,17 @@ export default function Picker(state) {
 
   useEffect(() => {
     const userId = JSON.parse(sessionStorage.getItem('info')).userId;
-    getScraps(userId).then((res) => {
-      setScrapItems(res);
-    });
+    getScraps(userId)
+      .then((res) => {
+        setScrapItems(res);
+      })
+      .catch((err) => setScrapItems([]));
+
+    getPosts(userId)
+      .then((res) => {
+        setPostItems(res);
+      })
+      .catch((err) => setScrapItems([]));
   }, [status]);
 
   return (
