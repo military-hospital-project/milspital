@@ -8,6 +8,9 @@ export default ({ mode }) => {
   console.log(`${env.VITE_REACT_APP_API_URL}`);
 
   return defineConfig({
+    build: {
+      outDir: 'build',
+    },
     plugins: [react()],
     server: {
       proxy: {
